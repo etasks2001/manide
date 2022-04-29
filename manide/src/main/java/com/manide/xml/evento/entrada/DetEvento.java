@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = { "descEvento", "xJust" })
 public class DetEvento {
 
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected String descEvento;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe")
+    @XmlElement()
     protected String xJust;
     @XmlAttribute(name = "versao", required = true)
     protected String versao;

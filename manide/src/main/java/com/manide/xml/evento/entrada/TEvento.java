@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "infEvento" })
+@XmlType(name = "TEvento", propOrder = { "infEvento" })
 public class TEvento {
 
     @XmlElement(required = true)

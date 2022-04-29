@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
+import org.springframework.stereotype.Component;
+
 import com.manide.xml.evento.entrada.DetEvento;
 import com.manide.xml.evento.entrada.InfEvento;
 import com.manide.xml.evento.entrada.TEnvEvento;
@@ -25,11 +27,12 @@ import com.manide.xml.xmldsigcore.TransformType;
 import com.manide.xml.xmldsigcore.TransformsType;
 import com.manide.xml.xmldsigcore.X509DataType;
 
+@Component
 @XmlRegistry
 public class ObjectFactory {
 
     private final static QName _Signature_QNAME = new QName("http://www.w3.org/2000/09/xmldsig#", "Signature");
-    private final static QName _EnvEvento_QNAME = new QName("http://www.portalfiscal.inf.br/nfe", "envEvento");
+    private final static QName _EnvEvento_QNAME = new QName("http://www.portalfiscal.inf.br/nf", "envEvento");
 
     public ObjectFactory() {
     }
@@ -115,7 +118,7 @@ public class ObjectFactory {
 	return new JAXBElement<SignatureType>(_Signature_QNAME, SignatureType.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "http://www.portalfiscal.inf.br/nfe", name = "envEvento")
+    @XmlElementDecl(namespace = "http://www.portalfiscal.inf.br/nf", name = "envEvento")
     public JAXBElement<TEnvEvento> createEnvEvento(TEnvEvento value) {
 	return new JAXBElement<TEnvEvento>(_EnvEvento_QNAME, TEnvEvento.class, null, value);
     }

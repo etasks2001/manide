@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TEnvEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "idLote", "evento" })
+@XmlType(name = "TEnvEvento", propOrder = { "idLote", "evento" })
 public class TEnvEvento {
 
     @XmlElement(required = true)
@@ -38,6 +38,10 @@ public class TEnvEvento {
 
     public void setVersao(String value) {
 	this.versao = value;
+    }
+
+    public void addEvento(TEvento evento) {
+	this.evento.add(evento);
     }
 
 }

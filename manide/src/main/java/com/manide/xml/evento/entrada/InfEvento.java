@@ -17,27 +17,27 @@ import com.manide.xml.TCOrgaoIBGE;
 @XmlType(name = "", propOrder = { "cOrgao", "tpAmb", "cnpj", "cpf", "chNFe", "dhEvento", "tpEvento", "nSeqEvento", "verEvento", "detEvento" })
 public class InfEvento {
 
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     @XmlSchemaType(name = "string")
     protected TCOrgaoIBGE cOrgao;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     @XmlSchemaType(name = "string")
     protected TAmb tpAmb;
-    @XmlElement(name = "CNPJ", namespace = "http://www.portalfiscal.inf.br/nfe")
+    @XmlElement(name = "CNPJ")
     protected String cnpj;
-    @XmlElement(name = "CPF", namespace = "http://www.portalfiscal.inf.br/nfe")
+    @XmlElement(name = "CPF")
     protected String cpf;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected String chNFe;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected String dhEvento;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected String tpEvento;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected String nSeqEvento;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected String verEvento;
-    @XmlElement(namespace = "http://www.portalfiscal.inf.br/nfe", required = true)
+    @XmlElement(required = true)
     protected DetEvento detEvento;
     @XmlAttribute(name = "Id", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
