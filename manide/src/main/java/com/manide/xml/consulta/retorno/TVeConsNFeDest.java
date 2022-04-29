@@ -1,4 +1,4 @@
-package com.manide.xml;
+package com.manide.xml.consulta.retorno;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 public enum TVeConsNFeDest {
 
     @XmlEnumValue("1.01")
-    VALUE_1("1.01");
+    VERSAO("1.01");
     private final String value;
 
     TVeConsNFeDest(String v) {

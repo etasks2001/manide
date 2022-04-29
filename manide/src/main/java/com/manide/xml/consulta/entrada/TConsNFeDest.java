@@ -1,4 +1,4 @@
-package com.manide.xml;
+package com.manide.xml.consulta.entrada;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -6,6 +6,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import com.manide.xml.TAmb;
+import com.manide.xml.consulta.retorno.TVeConsNFeDest;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TConsNFeDest", propOrder = { "tpAmb", "xServ", "cnpj", "indNFe", "indEmi", "ultNSU" })

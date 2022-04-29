@@ -1,4 +1,4 @@
-package com.manide.xml.consnfedest;
+package com.manide.xml.consulta.retorno;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.manide.xml.TAmb;
-import com.manide.xml.TVeConsNFeDest;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TRetConsNFeDest", propOrder = { "tpAmb", "verAplic", "cStat", "xMotivo", "dhResp", "indCont", "ultNSU", "ret" })
