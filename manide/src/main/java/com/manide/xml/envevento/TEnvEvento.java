@@ -16,7 +16,7 @@ public class TEnvEvento {
     @XmlElement(required = true)
     protected String idLote;
     @XmlElement(required = true)
-    protected List<TEvento> evento;
+    protected List<TEvento> evento = new ArrayList<TEvento>();
     @XmlAttribute(name = "versao", required = true)
     protected String versao;
 
@@ -29,9 +29,6 @@ public class TEnvEvento {
     }
 
     public List<TEvento> getEvento() {
-	if (evento == null) {
-	    evento = new ArrayList<TEvento>();
-	}
 	return this.evento;
     }
 

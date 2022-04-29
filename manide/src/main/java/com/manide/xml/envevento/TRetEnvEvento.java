@@ -31,7 +31,7 @@ public class TRetEnvEvento {
     protected String cStat;
     @XmlElement(required = true)
     protected String xMotivo;
-    protected List<TretEvento> retEvento;
+    protected List<TretEvento> retEvento = new ArrayList<TretEvento>();
     @XmlAttribute(name = "versao", required = true)
     protected String versao;
 
@@ -84,9 +84,6 @@ public class TRetEnvEvento {
     }
 
     public List<TretEvento> getRetEvento() {
-	if (retEvento == null) {
-	    retEvento = new ArrayList<TretEvento>();
-	}
 	return this.retEvento;
     }
 

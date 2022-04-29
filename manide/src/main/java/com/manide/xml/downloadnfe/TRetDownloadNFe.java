@@ -29,7 +29,7 @@ public class TRetDownloadNFe {
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dhResp;
-    protected List<RetNFe> retNFe;
+    protected List<RetNFe> retNFe = new ArrayList<RetNFe>();
     @XmlAttribute(name = "versao", required = true)
     protected TVerDownloadNFe versao;
 
@@ -74,9 +74,6 @@ public class TRetDownloadNFe {
     }
 
     public List<RetNFe> getRetNFe() {
-	if (retNFe == null) {
-	    retNFe = new ArrayList<RetNFe>();
-	}
 	return this.retNFe;
     }
 

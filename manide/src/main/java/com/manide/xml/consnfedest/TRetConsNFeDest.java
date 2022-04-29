@@ -32,7 +32,7 @@ public class TRetConsNFeDest {
     protected XMLGregorianCalendar dhResp;
     protected String indCont;
     protected String ultNSU;
-    protected List<Ret> ret;
+    protected List<Ret> ret = new ArrayList<Ret>();
     @XmlAttribute(name = "versao", required = true)
     protected TVeConsNFeDest versao;
 
@@ -93,9 +93,6 @@ public class TRetConsNFeDest {
     }
 
     public List<Ret> getRet() {
-	if (ret == null) {
-	    ret = new ArrayList<Ret>();
-	}
 	return this.ret;
     }
 

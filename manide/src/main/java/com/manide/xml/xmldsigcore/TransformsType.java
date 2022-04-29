@@ -1,6 +1,5 @@
 package com.manide.xml.xmldsigcore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,9 +15,6 @@ public class TransformsType {
     protected List<TransformType> transform;
 
     public List<TransformType> getTransform() {
-	if (transform == null) {
-	    transform = new ArrayList<TransformType>();
-	}
 	return this.transform;
     }
 

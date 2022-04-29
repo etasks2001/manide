@@ -14,14 +14,11 @@ import javax.xml.bind.annotation.XmlType;
 public class TransformType {
 
     @XmlElement(name = "XPath")
-    protected List<String> xPath;
+    protected List<String> xPath = new ArrayList<String>();
     @XmlAttribute(name = "Algorithm", required = true)
     protected String algorithm;
 
     public List<String> getXPath() {
-	if (xPath == null) {
-	    xPath = new ArrayList<String>();
-	}
 	return this.xPath;
     }
 

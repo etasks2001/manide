@@ -12,14 +12,10 @@ public class SignatureMethod {
 
     @XmlAttribute(name = "Algorithm", required = true)
     @XmlSchemaType(name = "anyURI")
-    protected String algorithm;
+    protected String algorithm = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
 
     public String getAlgorithm() {
-	if (algorithm == null) {
-	    return "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-	} else {
-	    return algorithm;
-	}
+	return algorithm;
     }
 
     public void setAlgorithm(String value) {

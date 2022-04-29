@@ -12,14 +12,10 @@ public class CanonicalizationMethod {
 
     @XmlAttribute(name = "Algorithm", required = true)
     @XmlSchemaType(name = "anyURI")
-    protected String algorithm;
+    protected String algorithm = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
 
     public String getAlgorithm() {
-	if (algorithm == null) {
-	    return "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-	} else {
-	    return algorithm;
-	}
+	return algorithm;
     }
 
     public void setAlgorithm(String value) {

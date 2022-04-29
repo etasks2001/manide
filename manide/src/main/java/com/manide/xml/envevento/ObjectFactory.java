@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
+import com.manide.xml.xmldsigcore.CanonicalizationMethod;
+import com.manide.xml.xmldsigcore.DigestMethod;
 import com.manide.xml.xmldsigcore.KeyInfoType;
 import com.manide.xml.xmldsigcore.ReferenceType;
 import com.manide.xml.xmldsigcore.SignatureMethod;
