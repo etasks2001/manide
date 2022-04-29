@@ -1,18 +1,18 @@
-package com.manide.xml.envevento;
+package com.manide.xml;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "TMod", namespace = "http://www.portalfiscal.inf.br/nfe")
+@XmlType(name = "TVerDownloadNFe")
 @XmlEnum
-public enum TMod {
+public enum TVerDownloadNFe {
 
-    @XmlEnumValue("55")
-    VALUE_1("55");
+    @XmlEnumValue("1.00")
+    VALUE_1("1.00");
     private final String value;
 
-    TMod(String v) {
+    TVerDownloadNFe(String v) {
 	value = v;
     }
 
@@ -20,8 +20,8 @@ public enum TMod {
 	return value;
     }
 
-    public static TMod fromValue(String v) {
-	for (TMod c : TMod.values()) {
+    public static TVerDownloadNFe fromValue(String v) {
+	for (TVerDownloadNFe c : TVerDownloadNFe.values()) {
 	    if (c.value.equals(v)) {
 		return c;
 	    }

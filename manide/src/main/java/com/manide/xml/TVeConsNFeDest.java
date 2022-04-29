@@ -1,18 +1,18 @@
-package com.manide.xml.downloadnfe;
+package com.manide.xml;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "TMod")
+@XmlType(name = "TVeConsNFeDest")
 @XmlEnum
-public enum TMod {
+public enum TVeConsNFeDest {
 
-    @XmlEnumValue("55")
-    VALUE_1("55");
+    @XmlEnumValue("1.01")
+    VALUE_1("1.01");
     private final String value;
 
-    TMod(String v) {
+    TVeConsNFeDest(String v) {
 	value = v;
     }
 
@@ -20,8 +20,8 @@ public enum TMod {
 	return value;
     }
 
-    public static TMod fromValue(String v) {
-	for (TMod c : TMod.values()) {
+    public static TVeConsNFeDest fromValue(String v) {
+	for (TVeConsNFeDest c : TVeConsNFeDest.values()) {
 	    if (c.value.equals(v)) {
 		return c;
 	    }

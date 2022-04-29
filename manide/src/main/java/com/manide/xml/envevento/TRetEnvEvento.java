@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.manide.xml.TAmb;
+import com.manide.xml.TCOrgaoIBGE;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TRetEnvEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "idLote", "tpAmb", "verAplic", "cOrgao", "cStat", "xMotivo", "retEvento" })
 public class TRetEnvEvento {

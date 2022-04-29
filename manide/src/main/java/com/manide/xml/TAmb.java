@@ -1,18 +1,19 @@
-package com.manide.xml.downloadnfe;
+package com.manide.xml;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "TVerDownloadNFe")
+@XmlType(name = "TAmb", namespace = "http://www.portalfiscal.inf.br/nfe")
 @XmlEnum
-public enum TVerDownloadNFe {
+public enum TAmb {
 
-    @XmlEnumValue("1.00")
-    VALUE_1("1.00");
+    @XmlEnumValue("1")
+    VALUE_1("1"), @XmlEnumValue("2")
+    VALUE_2("2");
     private final String value;
 
-    TVerDownloadNFe(String v) {
+    TAmb(String v) {
 	value = v;
     }
 
@@ -20,8 +21,8 @@ public enum TVerDownloadNFe {
 	return value;
     }
 
-    public static TVerDownloadNFe fromValue(String v) {
-	for (TVerDownloadNFe c : TVerDownloadNFe.values()) {
+    public static TAmb fromValue(String v) {
+	for (TAmb c : TAmb.values()) {
 	    if (c.value.equals(v)) {
 		return c;
 	    }

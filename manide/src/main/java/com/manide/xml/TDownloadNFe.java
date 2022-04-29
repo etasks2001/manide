@@ -1,4 +1,7 @@
-package com.manide.xml.consnfedest;
+package com.manide.xml;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,9 +10,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.manide.xml.downloadnfe.TAmb;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TConsNFeDest", propOrder = { "tpAmb", "xServ", "cnpj", "indNFe", "indEmi", "ultNSU" })
-public class TConsNFeDest {
+@XmlType(name = "TDownloadNFe", propOrder = { "tpAmb", "xServ", "cnpj", "chNFe" })
+public class TDownloadNFe {
 
     @XmlElement(required = true)
     @XmlSchemaType(name = "string")
@@ -19,13 +24,9 @@ public class TConsNFeDest {
     @XmlElement(name = "CNPJ", required = true)
     protected String cnpj;
     @XmlElement(required = true)
-    protected String indNFe;
-    @XmlElement(required = true)
-    protected String indEmi;
-    @XmlElement(required = true)
-    protected String ultNSU;
+    protected List<String> chNFe;
     @XmlAttribute(name = "versao", required = true)
-    protected TVeConsNFeDest versao;
+    protected TVerDownloadNFe versao;
 
     public TAmb getTpAmb() {
 	return tpAmb;
@@ -51,35 +52,18 @@ public class TConsNFeDest {
 	this.cnpj = value;
     }
 
-    public String getIndNFe() {
-	return indNFe;
+    public List<String> getChNFe() {
+	if (chNFe == null) {
+	    chNFe = new ArrayList<String>();
+	}
+	return this.chNFe;
     }
 
-    public void setIndNFe(String value) {
-	this.indNFe = value;
-    }
-
-    public String getIndEmi() {
-	return indEmi;
-    }
-
-    public void setIndEmi(String value) {
-	this.indEmi = value;
-    }
-
-    public String getUltNSU() {
-	return ultNSU;
-    }
-
-    public void setUltNSU(String value) {
-	this.ultNSU = value;
-    }
-
-    public TVeConsNFeDest getVersao() {
+    public TVerDownloadNFe getVersao() {
 	return versao;
     }
 
-    public void setVersao(TVeConsNFeDest value) {
+    public void setVersao(TVerDownloadNFe value) {
 	this.versao = value;
     }
 

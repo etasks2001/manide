@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.manide.xml.TVerDownloadNFe;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TRetDownloadNFe", propOrder = { "tpAmb", "verAplic", "cStat", "xMotivo", "dhResp", "retNFe" })
 public class TRetDownloadNFe {

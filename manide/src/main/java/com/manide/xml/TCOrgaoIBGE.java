@@ -1,12 +1,12 @@
-package com.manide.xml.envevento;
+package com.manide.xml;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "TCodUfIBGE", namespace = "http://www.portalfiscal.inf.br/nfe")
+@XmlType(name = "TCOrgaoIBGE", namespace = "http://www.portalfiscal.inf.br/nfe")
 @XmlEnum
-public enum TCodUfIBGE {
+public enum TCOrgaoIBGE {
 
     @XmlEnumValue("11")
     VALUE_1("11"), @XmlEnumValue("12")
@@ -35,10 +35,12 @@ public enum TCodUfIBGE {
     VALUE_24("50"), @XmlEnumValue("51")
     VALUE_25("51"), @XmlEnumValue("52")
     VALUE_26("52"), @XmlEnumValue("53")
-    VALUE_27("53");
+    VALUE_27("53"), @XmlEnumValue("90")
+    VALUE_28("90"), @XmlEnumValue("91")
+    VALUE_29("91");
     private final String value;
 
-    TCodUfIBGE(String v) {
+    TCOrgaoIBGE(String v) {
 	value = v;
     }
 
@@ -46,8 +48,8 @@ public enum TCodUfIBGE {
 	return value;
     }
 
-    public static TCodUfIBGE fromValue(String v) {
-	for (TCodUfIBGE c : TCodUfIBGE.values()) {
+    public static TCOrgaoIBGE fromValue(String v) {
+	for (TCOrgaoIBGE c : TCOrgaoIBGE.values()) {
 	    if (c.value.equals(v)) {
 		return c;
 	    }

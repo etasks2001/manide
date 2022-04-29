@@ -11,6 +11,9 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.manide.xml.TAmb;
+import com.manide.xml.TVeConsNFeDest;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TRetConsNFeDest", propOrder = { "tpAmb", "verAplic", "cStat", "xMotivo", "dhResp", "indCont", "ultNSU", "ret" })
 public class TRetConsNFeDest {

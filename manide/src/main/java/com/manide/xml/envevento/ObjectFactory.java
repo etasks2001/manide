@@ -5,6 +5,16 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
+import com.manide.xml.xmldsigcore.KeyInfoType;
+import com.manide.xml.xmldsigcore.ReferenceType;
+import com.manide.xml.xmldsigcore.SignatureMethod;
+import com.manide.xml.xmldsigcore.SignatureType;
+import com.manide.xml.xmldsigcore.SignatureValueType;
+import com.manide.xml.xmldsigcore.SignedInfoType;
+import com.manide.xml.xmldsigcore.TransformType;
+import com.manide.xml.xmldsigcore.TransformsType;
+import com.manide.xml.xmldsigcore.X509DataType;
+
 @XmlRegistry
 public class ObjectFactory {
 

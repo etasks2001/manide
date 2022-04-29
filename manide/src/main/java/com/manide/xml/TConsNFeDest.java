@@ -1,7 +1,4 @@
-package com.manide.xml.downloadnfe;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.manide.xml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,8 +8,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TDownloadNFe", propOrder = { "tpAmb", "xServ", "cnpj", "chNFe" })
-public class TDownloadNFe {
+@XmlType(name = "TConsNFeDest", propOrder = { "tpAmb", "xServ", "cnpj", "indNFe", "indEmi", "ultNSU" })
+public class TConsNFeDest {
 
     @XmlElement(required = true)
     @XmlSchemaType(name = "string")
@@ -22,9 +19,13 @@ public class TDownloadNFe {
     @XmlElement(name = "CNPJ", required = true)
     protected String cnpj;
     @XmlElement(required = true)
-    protected List<String> chNFe;
+    protected String indNFe;
+    @XmlElement(required = true)
+    protected String indEmi;
+    @XmlElement(required = true)
+    protected String ultNSU;
     @XmlAttribute(name = "versao", required = true)
-    protected TVerDownloadNFe versao;
+    protected TVeConsNFeDest versao;
 
     public TAmb getTpAmb() {
 	return tpAmb;
@@ -50,18 +51,35 @@ public class TDownloadNFe {
 	this.cnpj = value;
     }
 
-    public List<String> getChNFe() {
-	if (chNFe == null) {
-	    chNFe = new ArrayList<String>();
-	}
-	return this.chNFe;
+    public String getIndNFe() {
+	return indNFe;
     }
 
-    public TVerDownloadNFe getVersao() {
+    public void setIndNFe(String value) {
+	this.indNFe = value;
+    }
+
+    public String getIndEmi() {
+	return indEmi;
+    }
+
+    public void setIndEmi(String value) {
+	this.indEmi = value;
+    }
+
+    public String getUltNSU() {
+	return ultNSU;
+    }
+
+    public void setUltNSU(String value) {
+	this.ultNSU = value;
+    }
+
+    public TVeConsNFeDest getVersao() {
 	return versao;
     }
 
-    public void setVersao(TVerDownloadNFe value) {
+    public void setVersao(TVeConsNFeDest value) {
 	this.versao = value;
     }
 

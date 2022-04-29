@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.manide.xml.TAmb;
+import com.manide.xml.TCOrgaoIBGE;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "tpAmb", "verAplic", "cOrgao", "cStat", "xMotivo", "chNFe", "tpEvento", "xEvento", "nSeqEvento", "cnpjDest", "cpfDest", "emailDest", "dhRegEvento", "nProt" })
 public class InfEvento2 {
