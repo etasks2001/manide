@@ -1,4 +1,4 @@
-package com.manide.xml.consulta;
+package com.manide.xml.consulta.retorno.info;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,7 +10,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "chNFe", "cnpj", "cpf", "xNome", "ie", "dEmi", "tpNF", "vnf", "digVal", "dhRecbto", "cSitNFe", "cSitConf" })
-public class ResNFe {
+public class ResCanc {
 
     @XmlElement(required = true)
     protected String chNFe;
@@ -90,6 +90,54 @@ public class ResNFe {
 
     public String getTpNF() {
 	return tpNF;
+    }
+
+    public void setTpNF(String value) {
+	this.tpNF = value;
+    }
+
+    public String getVNF() {
+	return vnf;
+    }
+
+    public void setVNF(String value) {
+	this.vnf = value;
+    }
+
+    public String getDigVal() {
+	return digVal;
+    }
+
+    public void setDigVal(String value) {
+	this.digVal = value;
+    }
+
+    public XMLGregorianCalendar getDhRecbto() {
+	return dhRecbto;
+    }
+
+    public void setDhRecbto(XMLGregorianCalendar value) {
+	this.dhRecbto = value;
+    }
+
+    public String getCSitNFe() {
+	return cSitNFe;
+    }
+
+    public void setCSitNFe(String value) {
+	this.cSitNFe = value;
+    }
+
+    public String getCSitConf() {
+	return cSitConf;
+    }
+
+    public void setCSitConf(String value) {
+	this.cSitConf = value;
+    }
+
+    public String getNSU() {
+	return nsu;
     }
 
     public void setNSU(String value) {

@@ -1,4 +1,4 @@
-package com.manide.xml.consulta;
+package com.manide.xml.consulta.retorno.info;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

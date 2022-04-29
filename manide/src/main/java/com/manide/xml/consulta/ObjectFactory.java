@@ -6,8 +6,11 @@ import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 import com.manide.xml.consulta.entrada.TConsNFeDest;
-import com.manide.xml.consulta.retorno.Ret;
 import com.manide.xml.consulta.retorno.TRetConsNFeDest;
+import com.manide.xml.consulta.retorno.info.ResCCe;
+import com.manide.xml.consulta.retorno.info.ResCanc;
+import com.manide.xml.consulta.retorno.info.ResNFe;
+import com.manide.xml.consulta.retorno.info.Ret;
 
 @XmlRegistry
 public class ObjectFactory {

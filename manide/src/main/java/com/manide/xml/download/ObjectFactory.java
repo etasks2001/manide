@@ -1,4 +1,4 @@
-package com.manide.xml.downloadnfe;
+package com.manide.xml.download;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

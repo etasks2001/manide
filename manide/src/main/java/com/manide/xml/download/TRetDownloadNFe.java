@@ -1,4 +1,4 @@
-package com.manide.xml.downloadnfe;
+package com.manide.xml.download;
 
 import java.util.ArrayList;
 import java.util.List;

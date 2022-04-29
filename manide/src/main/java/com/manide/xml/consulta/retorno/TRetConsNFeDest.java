@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.manide.xml.TAmb;
+import com.manide.xml.consulta.retorno.info.Ret;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TRetConsNFeDest", propOrder = { "tpAmb", "verAplic", "cStat", "xMotivo", "dhResp", "indCont", "ultNSU", "ret" })

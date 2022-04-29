@@ -1,12 +1,8 @@
-package com.manide.xml.consulta.retorno;
+package com.manide.xml.consulta.retorno.info;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-
-import com.manide.xml.consulta.ResCCe;
-import com.manide.xml.consulta.ResCanc;
-import com.manide.xml.consulta.ResNFe;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "resNFe", "resCanc", "resCCe" })
