@@ -1,4 +1,4 @@
-package com.manide.xml.download;
+package com.manide.xml.download.retorno;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.manide.xml.TAmb;
-import com.manide.xml.TVerDownloadNFe;
+import com.manide.xml.download.entrada.TVerDownloadNFe;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TRetDownloadNFe", propOrder = { "tpAmb", "verAplic", "cStat", "xMotivo", "dhResp", "retNFe" })

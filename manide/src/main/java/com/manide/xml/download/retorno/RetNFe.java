@@ -1,4 +1,4 @@
-package com.manide.xml.download;
+package com.manide.xml.download.retorno;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

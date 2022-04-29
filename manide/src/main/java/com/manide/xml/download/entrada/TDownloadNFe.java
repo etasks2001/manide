@@ -1,4 +1,4 @@
-package com.manide.xml;
+package com.manide.xml.download.entrada;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import com.manide.xml.TAmb;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TDownloadNFe", propOrder = { "tpAmb", "xServ", "cnpj", "chNFe" })
@@ -22,7 +24,7 @@ public class TDownloadNFe {
     @XmlElement(name = "CNPJ", required = true)
     protected String cnpj;
     @XmlElement(required = true)
-    protected List<String> chNFe;
+    protected List<String> chNFe = new ArrayList<String>();
     @XmlAttribute(name = "versao", required = true)
     protected TVerDownloadNFe versao;
 
@@ -51,9 +53,6 @@ public class TDownloadNFe {
     }
 
     public List<String> getChNFe() {
-	if (chNFe == null) {
-	    chNFe = new ArrayList<String>();
-	}
 	return this.chNFe;
     }
 

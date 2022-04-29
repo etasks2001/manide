@@ -1,4 +1,4 @@
-package com.manide.xml;
+package com.manide.xml.download.entrada;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;

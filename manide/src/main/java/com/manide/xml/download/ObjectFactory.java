@@ -5,7 +5,11 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-import com.manide.xml.TDownloadNFe;
+import com.manide.xml.download.entrada.TDownloadNFe;
+import com.manide.xml.download.retorno.ProcNFe;
+import com.manide.xml.download.retorno.ProcNFeGrupoZip;
+import com.manide.xml.download.retorno.RetNFe;
+import com.manide.xml.download.retorno.TRetDownloadNFe;
 
 @XmlRegistry
 public class ObjectFactory {
