@@ -1,4 +1,4 @@
-package com.manide.manide;
+package com.manide;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

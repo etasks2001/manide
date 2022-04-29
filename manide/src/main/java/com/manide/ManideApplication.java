@@ -1,4 +1,4 @@
-package com.manide.manide;
+package com.manide;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
