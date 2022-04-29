@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.manide.xml.TAmb;
 import com.manide.xml.TVerDownloadNFe;
 
 @XmlAccessorType(XmlAccessType.FIELD)

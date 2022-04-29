@@ -1,10 +1,18 @@
-package com.manide.xml.envevento;
+package com.manide.xml.evento;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
+import com.manide.xml.evento.entrada.DetEvento;
+import com.manide.xml.evento.entrada.InfEvento;
+import com.manide.xml.evento.entrada.TEnvEvento;
+import com.manide.xml.evento.entrada.TEvento;
+import com.manide.xml.evento.retorno.InfEvento2;
+import com.manide.xml.evento.retorno.TProcEvento;
+import com.manide.xml.evento.retorno.TRetEnvEvento;
+import com.manide.xml.evento.retorno.TretEvento;
 import com.manide.xml.xmldsigcore.CanonicalizationMethod;
 import com.manide.xml.xmldsigcore.DigestMethod;
 import com.manide.xml.xmldsigcore.KeyInfoType;

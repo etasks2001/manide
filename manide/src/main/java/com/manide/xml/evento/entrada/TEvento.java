@@ -1,4 +1,4 @@
-package com.manide.xml.envevento;
+package com.manide.xml.evento.entrada;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -6,16 +6,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import com.manide.xml.xmldsigcore.SignatureType;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "infEvento", "signature" })
+@XmlType(name = "TEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "infEvento" })
 public class TEvento {
 
     @XmlElement(required = true)
     protected InfEvento infEvento;
-    @XmlElement(name = "Signature", namespace = "http://www.w3.org/2000/09/xmldsig#", required = true)
-    protected SignatureType signature;
     @XmlAttribute(name = "versao", required = true)
     protected String versao;
 
@@ -25,14 +21,6 @@ public class TEvento {
 
     public void setInfEvento(InfEvento value) {
 	this.infEvento = value;
-    }
-
-    public SignatureType getSignature() {
-	return signature;
-    }
-
-    public void setSignature(SignatureType value) {
-	this.signature = value;
     }
 
     public String getVersao() {

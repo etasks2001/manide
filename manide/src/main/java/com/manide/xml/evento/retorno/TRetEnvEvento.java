@@ -1,4 +1,4 @@
-package com.manide.xml.envevento;
+package com.manide.xml.evento.retorno;
 
 import java.util.ArrayList;
 import java.util.List;

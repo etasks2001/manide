@@ -1,7 +1,4 @@
-package com.manide.xml.envevento;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.manide.xml.evento.retorno;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,27 +6,33 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.manide.xml.evento.entrada.TEvento;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TEnvEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "idLote", "evento" })
-public class TEnvEvento {
+@XmlType(name = "TProcEvento", namespace = "http://www.portalfiscal.inf.br/nfe", propOrder = { "evento", "retEvento" })
+public class TProcEvento {
 
     @XmlElement(required = true)
-    protected String idLote;
+    protected TEvento evento;
     @XmlElement(required = true)
-    protected List<TEvento> evento = new ArrayList<TEvento>();
+    protected TretEvento retEvento;
     @XmlAttribute(name = "versao", required = true)
     protected String versao;
 
-    public String getIdLote() {
-	return idLote;
+    public TEvento getEvento() {
+	return evento;
     }
 
-    public void setIdLote(String value) {
-	this.idLote = value;
+    public void setEvento(TEvento value) {
+	this.evento = value;
     }
 
-    public List<TEvento> getEvento() {
-	return this.evento;
+    public TretEvento getRetEvento() {
+	return retEvento;
+    }
+
+    public void setRetEvento(TretEvento value) {
+	this.retEvento = value;
     }
 
     public String getVersao() {

@@ -9,8 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 public enum TAmb {
 
     @XmlEnumValue("1")
-    VALUE_1("1"), @XmlEnumValue("2")
-    VALUE_2("2");
+    PRODUCAO("1"),
+
+    @XmlEnumValue("2")
+    HOMOLOGACAO("2");
     private final String value;
 
     TAmb(String v) {

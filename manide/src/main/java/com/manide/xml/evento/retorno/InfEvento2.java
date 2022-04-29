@@ -1,4 +1,4 @@
-package com.manide.xml.envevento;
+package com.manide.xml.evento.retorno;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
