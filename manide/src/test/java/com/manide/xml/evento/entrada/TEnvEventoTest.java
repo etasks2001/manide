@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -21,61 +20,59 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import com.manide.xml.TAmb;
 import com.manide.xml.TCOrgaoIBGE;
-import com.manide.xml.evento.ObjectFactory;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(value = Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
-@DisplayName("Service - Lista de Preço")
+@DisplayName("Gravar XML envio de evento")
 class TEnvEventoTest {
-    @Autowired
-    JAXBContext context;
 
-    @Autowired
-    ObjectFactory objectFactory;
+	private static final String VERSAO = "1.00";
 
-    @Autowired
-    Marshaller marshaller;
+	@Autowired
+	ObjectFactory objectFactory;
 
-    @Test
-    void test() throws JAXBException, IOException {
+	@Autowired
+	Marshaller marshaller;
 
-	TEnvEvento envEvento = new TEnvEvento();
-	envEvento.setVersao("2.22");
-	envEvento.setIdLote("1");
+	@Test
+	void test() throws JAXBException, IOException {
 
-	TEvento evento = new TEvento();
-	evento.setVersao("1.11");
+		TEvento evento = new TEvento();
+		evento.setVersao(VERSAO);
 
-	InfEvento infEvento = new InfEvento();
-	infEvento.setId("jfdklçaslfjdklçjdl");
-	infEvento.setCOrgao(TCOrgaoIBGE.SP);
-	infEvento.setTpAmb(TAmb.HOMOLOGACAO);
-	infEvento.setCNPJ("11222333000199");
-	infEvento.setChNFe("156456456456456456456");
-	infEvento.setDhEvento("2010-08-19T13:00:15-03:00");
-	infEvento.setTpEvento("210200");
-	infEvento.setNSeqEvento("1");
-	infEvento.setVerEvento("123");
+		InfEvento infEvento = new InfEvento();
+		infEvento.setId("1");
+		infEvento.setCOrgao(TCOrgaoIBGE.SP);
+		infEvento.setTpAmb(TAmb.HOMOLOGACAO);
+		infEvento.setCNPJ("11222333000199");
+		infEvento.setChNFe("01234567890123456789012345678901234567890123");
+		infEvento.setDhEvento("2010-08-19T13:00:15-03:00");
+		infEvento.setTpEvento("210200");
+		infEvento.setNSeqEvento("1");
+		infEvento.setVerEvento(VERSAO);
 
-	DetEvento detEvento = new DetEvento();
-	detEvento.setVersao("45");
-	detEvento.setDescEvento("Confirmacao da Operacao");
-	detEvento.setXJust("jkfdçeior");
+		DetEvento detEvento = new DetEvento();
+		detEvento.setVersao(VERSAO);
+		detEvento.setDescEvento("Confirmacao da Operacao");
+		detEvento.setXJust("pedido não foi realizado");
 
-	infEvento.setDetEvento(detEvento);
+		infEvento.setDetEvento(detEvento);
 
-	evento.setInfEvento(infEvento);
+		evento.setInfEvento(infEvento);
 
-	envEvento.addEvento(evento);
+		TEnvEvento envEvento = new TEnvEvento();
+		envEvento.setVersao(VERSAO);
+		envEvento.setIdLote("1");
+		envEvento.addEvento(evento);
 
-	JAXBElement<TEnvEvento> tEnvEvento = objectFactory.createEnvEvento(envEvento);
+		JAXBElement<TEnvEvento> tEnvEvento = objectFactory.createEnvEvento(envEvento);
 
-	OutputStream file = new FileOutputStream("c:\\mde\\teste.xml");
-	marshaller.marshal(tEnvEvento, file);
+		OutputStream file = new FileOutputStream("c:\\mde\\teste.xml");
+		marshaller.marshal(tEnvEvento, file);
 
-	file.close();
+		file.close();
 
-    }
+	}
 
 }
