@@ -18,16 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.manide.xml.TAmb;
-import com.manide.xml.TCOrgaoIBGE;
+import com.manide.FactoryXml;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(value = Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
-@DisplayName("Gravar XML envio de evento")
+@DisplayName("XML Envio de Evento")
 class TEnvEventoTest {
-
-	private static final String VERSAO = "1.00";
 
 	@Autowired
 	ObjectFactory objectFactory;
@@ -35,36 +32,14 @@ class TEnvEventoTest {
 	@Autowired
 	Marshaller marshaller;
 
+	@Autowired
+	private FactoryXml factoryXml;
+
 	@Test
+	@DisplayName("Grava XML")
 	void test() throws JAXBException, IOException {
 
-		TEvento evento = new TEvento();
-		evento.setVersao(VERSAO);
-
-		InfEvento infEvento = new InfEvento();
-		infEvento.setId("1");
-		infEvento.setCOrgao(TCOrgaoIBGE.SP);
-		infEvento.setTpAmb(TAmb.HOMOLOGACAO);
-		infEvento.setCNPJ("11222333000199");
-		infEvento.setChNFe("01234567890123456789012345678901234567890123");
-		infEvento.setDhEvento("2010-08-19T13:00:15-03:00");
-		infEvento.setTpEvento("210200");
-		infEvento.setNSeqEvento("1");
-		infEvento.setVerEvento(VERSAO);
-
-		DetEvento detEvento = new DetEvento();
-		detEvento.setVersao(VERSAO);
-		detEvento.setDescEvento("Confirmacao da Operacao");
-		detEvento.setXJust("pedido não foi realizado");
-
-		infEvento.setDetEvento(detEvento);
-
-		evento.setInfEvento(infEvento);
-
-		TEnvEvento envEvento = new TEnvEvento();
-		envEvento.setVersao(VERSAO);
-		envEvento.setIdLote("1");
-		envEvento.addEvento(evento);
+		TEnvEvento envEvento = factoryXml.createEvent();
 
 		JAXBElement<TEnvEvento> tEnvEvento = objectFactory.createEnvEvento(envEvento);
 
