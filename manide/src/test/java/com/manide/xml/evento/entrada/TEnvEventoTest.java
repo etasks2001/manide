@@ -1,13 +1,16 @@
 package com.manide.xml.evento.entrada;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.manide.FactoryXml;
+import com.manide.FactoryXmlTest;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(value = Lifecycle.PER_CLASS)
@@ -26,28 +29,38 @@ import com.manide.FactoryXml;
 @DisplayName("XML Envio de Evento")
 class TEnvEventoTest {
 
-	@Autowired
-	ObjectFactory objectFactory;
+    private static final String C_MDE_TESTE_XML = "c:\\mde\\teste.xml";
 
-	@Autowired
-	Marshaller marshaller;
+    @Autowired
+    ObjectFactory objectFactory;
 
-	@Autowired
-	private FactoryXml factoryXml;
+    @Autowired
+    Marshaller marshaller;
 
-	@Test
-	@DisplayName("Grava XML")
-	void test() throws JAXBException, IOException {
+    @Autowired
+    Unmarshaller unmarshaller;
 
-		TEnvEvento envEvento = factoryXml.createEvent();
+    @Autowired
+    private FactoryXmlTest factoryXml;
 
-		JAXBElement<TEnvEvento> tEnvEvento = objectFactory.createEnvEvento(envEvento);
+    @Test
+    @DisplayName("Grava XML")
+    void test() {
+	try {
+	    TEnvEvento envEvento = factoryXml.createEvent();
 
-		OutputStream file = new FileOutputStream("c:\\mde\\teste.xml");
-		marshaller.marshal(tEnvEvento, file);
+	    OutputStream os = new FileOutputStream(C_MDE_TESTE_XML);
+	    marshaller.marshal(objectFactory.createEnvEvento(envEvento), os);
+	    os.close();
 
-		file.close();
+	    InputStream is = new FileInputStream(C_MDE_TESTE_XML);
+	    TEnvEvento envEvento2 = ((JAXBElement<TEnvEvento>) unmarshaller.unmarshal(is)).getValue();
 
+	    MatcherAssert.assertThat(envEvento.getIdLote(), Matchers.is(envEvento2.getIdLote()));
+	    MatcherAssert.assertThat(envEvento.getVersao(), Matchers.is(envEvento2.getVersao()));
+
+	} catch (Exception e) {
+	    e.printStackTrace();
 	}
-
+    }
 }

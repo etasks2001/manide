@@ -10,7 +10,7 @@ import com.manide.xml.evento.entrada.TEnvEvento;
 import com.manide.xml.evento.entrada.TEvento;
 
 @Component
-public class FactoryXml {
+public class FactoryXmlTest {
 	private static final String VERSAO = "1.00";
 
 	public TEnvEvento createEvent() {
