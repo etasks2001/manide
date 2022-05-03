@@ -29,6 +29,7 @@ public class ObjectFactory {
 
     private final static QName _Signature_QNAME = new QName("http://www.w3.org/2000/09/xmldsig#", "Signature");
     private final static QName _EnvEvento_QNAME = new QName("http://www.portalfiscal.inf.br/nfe", "envEvento");
+    private final static QName _Evento_QNAME = new QName("http://www.portalfiscal.inf.br/nfe", "evento");
 
     public ObjectFactory() {
     }
@@ -109,7 +110,7 @@ public class ObjectFactory {
 	return new InfEvento2();
     }
 
-    @XmlElementDecl(namespace = "http://www.w3.org/2000/09/xmldsig#", name = "Signature")
+    @XmlElementDecl(name = "Signature")
     public JAXBElement<SignatureType> createSignature(SignatureType value) {
 	return new JAXBElement<SignatureType>(_Signature_QNAME, SignatureType.class, null, value);
     }
@@ -117,6 +118,11 @@ public class ObjectFactory {
     @XmlElementDecl(name = "envEvento")
     public JAXBElement<TEnvEvento> createEnvEvento(TEnvEvento value) {
 	return new JAXBElement<TEnvEvento>(_EnvEvento_QNAME, TEnvEvento.class, null, value);
+    }
+
+    @XmlElementDecl(name = "evento")
+    public JAXBElement<TEvento> createEvento(TEvento value) {
+	return new JAXBElement<TEvento>(_Evento_QNAME, TEvento.class, null, value);
     }
 
 }

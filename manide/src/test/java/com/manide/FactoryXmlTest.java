@@ -11,40 +11,68 @@ import com.manide.xml.evento.entrada.TEvento;
 
 @Component
 public class FactoryXmlTest {
-	private static final String VERSAO = "1.00";
+    private static final String VERSAO = "1.00";
 
-	public TEnvEvento createEvent() {
+    public TEnvEvento createEvent() {
+	TEnvEvento envEvento = new TEnvEvento();
+	envEvento.setVersao(VERSAO);
+	envEvento.setIdLote("1");
 
-		TEvento evento = new TEvento();
-		evento.setVersao(VERSAO);
+	return envEvento;
+    }
 
-		InfEvento infEvento = new InfEvento();
-		infEvento.setId("1");
-		infEvento.setCOrgao(TCOrgaoIBGE.SP);
-		infEvento.setTpAmb(TAmb.HOMOLOGACAO);
-		infEvento.setCNPJ("11222333000199");
-		infEvento.setChNFe("01234567890123456789012345678901234567890123");
-		infEvento.setDhEvento("2010-08-19T13:00:15-03:00");
-		infEvento.setTpEvento("210200");
-		infEvento.setNSeqEvento("1");
-		infEvento.setVerEvento(VERSAO);
+    public TEvento createEvento1() {
+	TEvento evento = new TEvento();
+	DetEvento detEvento = new DetEvento();
+	InfEvento infEvento = new InfEvento();
 
-		DetEvento detEvento = new DetEvento();
-		detEvento.setVersao(VERSAO);
-		detEvento.setDescEvento("Confirmacao da Operacao");
-		detEvento.setXJust("pedido não foi realizado");
+	infEvento.setId("1");
+	infEvento.setCOrgao(TCOrgaoIBGE.SP);
+	infEvento.setTpAmb(TAmb.HOMOLOGACAO);
+	infEvento.setCNPJ("11222333000199");
+	infEvento.setChNFe("01234567890123456789012345678901234567890122");
+	infEvento.setDhEvento("2010-08-19T13:00:15-03:00");
+	infEvento.setTpEvento("210200");
+	infEvento.setNSeqEvento("1");
+	infEvento.setVerEvento(VERSAO);
 
-		infEvento.setDetEvento(detEvento);
+	detEvento.setVersao(VERSAO);
+	detEvento.setDescEvento("Confirmacao da Operacao");
+	detEvento.setXJust("pedido nao foi realizado");
 
-		evento.setInfEvento(infEvento);
+	infEvento.setDetEvento(detEvento);
 
-		TEnvEvento envEvento = new TEnvEvento();
-		envEvento.setVersao(VERSAO);
-		envEvento.setIdLote("1");
-		envEvento.addEvento(evento);
+	evento.setInfEvento(infEvento);
+	evento.setVersao(VERSAO);
 
-		return envEvento;
+	return evento;
+    }
 
-	}
+    public TEvento createEvento2() {
+	InfEvento infEvento = new InfEvento();
+	TEvento evento = new TEvento();
+	DetEvento detEvento = new DetEvento();
+
+	infEvento.setId("2");
+	infEvento.setCOrgao(TCOrgaoIBGE.SP);
+	infEvento.setTpAmb(TAmb.HOMOLOGACAO);
+	infEvento.setCNPJ("11222333000199");
+	infEvento.setChNFe("01234567890123456789012345678901234567890123");
+	infEvento.setDhEvento("2010-08-19T13:00:15-03:00");
+	infEvento.setTpEvento("210200");
+	infEvento.setNSeqEvento("2");
+	infEvento.setVerEvento(VERSAO);
+
+	detEvento.setVersao(VERSAO);
+	detEvento.setDescEvento("Confirmacao da Operacao");
+	detEvento.setXJust("pedido nao foi realizado");
+
+	infEvento.setDetEvento(detEvento);
+
+	evento.setVersao(VERSAO);
+	evento.setInfEvento(infEvento);
+
+	return evento;
+    }
 
 }
