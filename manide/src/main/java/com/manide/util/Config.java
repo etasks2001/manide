@@ -19,6 +19,7 @@ public class Config {
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     private static final String XML_HEADERS = "com.sun.xml.internal.bind.xmlHeaders";
+    public static final String XML_HEADERS2 = "com.sun.xml.internal.bind.xmlHeaders";
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
@@ -28,6 +29,7 @@ public class Config {
     @Bean
     Marshaller createMarshaller() throws JAXBException {
 	Marshaller marshaller = jaxbContext().createMarshaller();
+
 	marshaller.setProperty(JAXB_FRAGMENT, TRUE);
 	marshaller.setProperty(XML_HEADERS, XML_VERSION);
 	return marshaller;
