@@ -32,13 +32,14 @@ public class Config {
 
 	marshaller.setProperty(JAXB_FRAGMENT, TRUE);
 	marshaller.setProperty(XML_HEADERS, XML_VERSION);
+	marshaller.setListener(new MarshalLogger());
 	return marshaller;
     }
 
     @Bean
     Unmarshaller createUnmarshaller() throws JAXBException {
 	Unmarshaller unmarshaller = jaxbContext().createUnmarshaller();
-
+	unmarshaller.setListener(new UnmarshalLogger());
 //	unmarshaller.setProperty(JAXB_FRAGMENT, TRUE);
 //	unmarshaller.setProperty(XML_HEADERS, XML_VERSION);
 	return unmarshaller;
