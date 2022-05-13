@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
 import org.junit.jupiter.api.Test;
 
@@ -70,8 +71,10 @@ class CreateXmlBeansTest {
 	    cursor2.insertNamespace("", "http://www.portalfiscal.inf.br/nfe");
 	    cursor2.dispose();
 	    evento.save(fileEvento, options);
+	    TEvento parse = TEvento.Factory.parse(new File("C:\\MDe\\event2-signed.xml"));
+	    System.out.println(parse);
 
-	} catch (IOException e) {
+	} catch (IOException | XmlException e) {
 	    e.printStackTrace();
 	}
     }
