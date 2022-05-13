@@ -52,11 +52,11 @@ class CreateXmlBeansTest {
 	    envEvento.setVersao("1.00");
 	    envEvento.setIdLote("1");
 
-	    XmlCursor cursor = envEvento.newCursor();
+	    XmlCursor cursorEnvEvento = envEvento.newCursor();
 
-	    cursor.toNextToken();
-	    cursor.insertNamespace("", "http://www.portalfiscal.inf.br/nfe");
-	    cursor.dispose();
+	    cursorEnvEvento.toNextToken();
+	    cursorEnvEvento.insertNamespace("", "http://www.portalfiscal.inf.br/nfe");
+	    cursorEnvEvento.dispose();
 
 	    document.setEnvEvento(envEvento);
 
@@ -65,13 +65,20 @@ class CreateXmlBeansTest {
 	    XmlOptions options = new XmlOptions();
 	    options.setSaveSyntheticDocumentElement(new QName("http://www.portalfiscal.inf.br/nfe", "evento"));
 
-	    XmlCursor cursor2 = evento.newCursor();
+	    XmlCursor cursorEvento = evento.newCursor();
 
-	    cursor2.toNextToken();
-	    cursor2.insertNamespace("", "http://www.portalfiscal.inf.br/nfe");
-	    cursor2.dispose();
+	    cursorEvento.toNextToken();
+	    cursorEvento.insertNamespace("", "http://www.portalfiscal.inf.br/nfe");
+	    cursorEvento.dispose();
+
 	    evento.save(fileEvento, options);
+
+	    evento = TEvento.Factory.parse(fileEvento);
+
+	    System.out.println(evento);
+
 	    TEvento parse = TEvento.Factory.parse(new File("C:\\MDe\\event2-signed.xml"));
+	    System.out.println("===================================================================================");
 	    System.out.println(parse);
 
 	} catch (IOException | XmlException e) {

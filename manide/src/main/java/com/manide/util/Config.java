@@ -11,9 +11,6 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.manide.xml.evento.entrada.TEnvEvento;
-import com.manide.xml.evento.entrada.TEvento;
-
 @Configuration
 public class Config {
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -23,7 +20,8 @@ public class Config {
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
-	return JAXBContext.newInstance(TEnvEvento.class, TEvento.class);
+//	return JAXBContext.newInstance(TEnvEvento.class, TEvento.class);
+	return null;
     }
 
     @Bean
