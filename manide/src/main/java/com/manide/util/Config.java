@@ -11,6 +11,10 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.manide.xml.envevento.ObjectFactory;
+import com.manide.xml.envevento.TEnvEvento;
+import com.manide.xml.envevento.TEvento;
+
 @Configuration
 public class Config {
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -20,8 +24,7 @@ public class Config {
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
-//	return JAXBContext.newInstance(TEnvEvento.class, TEvento.class);
-	return null;
+	return JAXBContext.newInstance(TEnvEvento.class, TEvento.class);
     }
 
     @Bean
@@ -41,6 +44,11 @@ public class Config {
 //	unmarshaller.setProperty(JAXB_FRAGMENT, TRUE);
 //	unmarshaller.setProperty(XML_HEADERS, XML_VERSION);
 	return unmarshaller;
+    }
+
+    @Bean
+    ObjectFactory getObjectFactory() {
+	return new ObjectFactory();
     }
 
 }

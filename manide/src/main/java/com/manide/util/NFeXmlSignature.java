@@ -92,6 +92,7 @@ public final class NFeXmlSignature {
 	alias = "fs";
 	rep = KeyStore.getInstance("JKS");
 	rep.load(dado, keyStorePassword);
+
 	cert = (X509Certificate) rep.getCertificate(alias);
 	return this.validate(cert);
 	// } catch (Exception e) {
