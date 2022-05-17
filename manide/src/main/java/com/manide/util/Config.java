@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.manide.xml.envevento.ObjectFactory;
+import com.manide.xml.envevento.SignatureType;
 import com.manide.xml.envevento.TEnvEvento;
-import com.manide.xml.envevento.TEvento;
 
 @Configuration
 public class Config {
@@ -24,7 +24,7 @@ public class Config {
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
-	return JAXBContext.newInstance(TEnvEvento.class, TEvento.class);
+	return JAXBContext.newInstance(TEnvEvento.class, SignatureType.class);
     }
 
     @Bean

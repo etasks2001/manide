@@ -1,10 +1,9 @@
 //
-// Este arquivo foi gerado pela Arquitetura JavaTM para Implementação de Referência (JAXB) de Bind XML, v2.2.8-b130911.1802 
+// Este arquivo foi gerado pela Arquitetura JavaTM para Implementaï¿½ï¿½o de Referï¿½ncia (JAXB) de Bind XML, v2.2.8-b130911.1802 
 // Consulte <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Todas as modificações neste arquivo serão perdidas após a recompilação do esquema de origem. 
-// Gerado em: 2022.05.17 às 11:30:23 AM GMT-03:00 
+// Todas as modificaï¿½ï¿½es neste arquivo serï¿½o perdidas apï¿½s a recompilaï¿½ï¿½o do esquema de origem. 
+// Gerado em: 2022.05.17 ï¿½s 11:30:23 AM GMT-03:00 
 //
-
 
 package com.manide.xml.envevento;
 
@@ -13,19 +12,15 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the com.manide.xml.envevento package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
+ * This object contains factory methods for each Java content interface and Java
+ * element interface generated in the com.manide.xml.envevento package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the
+ * Java representation for XML content. The Java representation of XML content
+ * can consist of schema derived interfaces and classes representing the binding
+ * of schema type definitions, element declarations and model groups. Factory
+ * methods for each of these are provided in this class.
  * 
  */
 @XmlRegistry
@@ -35,7 +30,8 @@ public class ObjectFactory {
     private final static QName _EnvEvento_QNAME = new QName("http://www.portalfiscal.inf.br/nfe", "envEvento");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.manide.xml.envevento
+     * Create a new ObjectFactory that can be used to create new instances of schema
+     * derived classes for package: com.manide.xml.envevento
      * 
      */
     public ObjectFactory() {
@@ -46,7 +42,7 @@ public class ObjectFactory {
      * 
      */
     public TEnvEvento createTEnvEvento() {
-        return new TEnvEvento();
+	return new TEnvEvento();
     }
 
     /**
@@ -54,7 +50,7 @@ public class ObjectFactory {
      * 
      */
     public TRetEnvEvento createTRetEnvEvento() {
-        return new TRetEnvEvento();
+	return new TRetEnvEvento();
     }
 
     /**
@@ -62,7 +58,7 @@ public class ObjectFactory {
      * 
      */
     public TretEvento createTretEvento() {
-        return new TretEvento();
+	return new TretEvento();
     }
 
     /**
@@ -70,7 +66,7 @@ public class ObjectFactory {
      * 
      */
     public TProcEvento createTProcEvento() {
-        return new TProcEvento();
+	return new TProcEvento();
     }
 
     /**
@@ -78,7 +74,7 @@ public class ObjectFactory {
      * 
      */
     public TEvento createTEvento() {
-        return new TEvento();
+	return new TEvento();
     }
 
     /**
@@ -86,7 +82,7 @@ public class ObjectFactory {
      * 
      */
     public SignatureType createSignatureType() {
-        return new SignatureType();
+	return new SignatureType();
     }
 
     /**
@@ -94,7 +90,7 @@ public class ObjectFactory {
      * 
      */
     public X509DataType createX509DataType() {
-        return new X509DataType();
+	return new X509DataType();
     }
 
     /**
@@ -102,7 +98,7 @@ public class ObjectFactory {
      * 
      */
     public SignatureValueType createSignatureValueType() {
-        return new SignatureValueType();
+	return new SignatureValueType();
     }
 
     /**
@@ -110,7 +106,7 @@ public class ObjectFactory {
      * 
      */
     public TransformsType createTransformsType() {
-        return new TransformsType();
+	return new TransformsType();
     }
 
     /**
@@ -118,7 +114,7 @@ public class ObjectFactory {
      * 
      */
     public SignedInfoType createSignedInfoType() {
-        return new SignedInfoType();
+	return new SignedInfoType();
     }
 
     /**
@@ -126,7 +122,7 @@ public class ObjectFactory {
      * 
      */
     public TransformType createTransformType() {
-        return new TransformType();
+	return new TransformType();
     }
 
     /**
@@ -134,7 +130,7 @@ public class ObjectFactory {
      * 
      */
     public ReferenceType createReferenceType() {
-        return new ReferenceType();
+	return new ReferenceType();
     }
 
     /**
@@ -142,7 +138,7 @@ public class ObjectFactory {
      * 
      */
     public KeyInfoType createKeyInfoType() {
-        return new KeyInfoType();
+	return new KeyInfoType();
     }
 
     /**
@@ -150,7 +146,7 @@ public class ObjectFactory {
      * 
      */
     public DigestMethod createDigestMethod() {
-        return new DigestMethod();
+	return new DigestMethod();
     }
 
     /**
@@ -158,7 +154,7 @@ public class ObjectFactory {
      * 
      */
     public CanonicalizationMethod createCanonicalizationMethod() {
-        return new CanonicalizationMethod();
+	return new CanonicalizationMethod();
     }
 
     /**
@@ -166,7 +162,7 @@ public class ObjectFactory {
      * 
      */
     public SignatureMethod createSignatureMethod() {
-        return new SignatureMethod();
+	return new SignatureMethod();
     }
 
     /**
@@ -174,7 +170,7 @@ public class ObjectFactory {
      * 
      */
     public InfEvento createInfEvento() {
-        return new InfEvento();
+	return new InfEvento();
     }
 
     /**
@@ -182,7 +178,7 @@ public class ObjectFactory {
      * 
      */
     public DetEvento createDetEvento() {
-        return new DetEvento();
+	return new DetEvento();
     }
 
     /**
@@ -190,25 +186,27 @@ public class ObjectFactory {
      * 
      */
     public InfEvento2 createInfEvento2() {
-        return new InfEvento2();
+	return new InfEvento2();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SignatureType }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link SignatureType
+     * }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2000/09/xmldsig#", name = "Signature")
     public JAXBElement<SignatureType> createSignature(SignatureType value) {
-        return new JAXBElement<SignatureType>(_Signature_QNAME, SignatureType.class, null, value);
+	return new JAXBElement<SignatureType>(_Signature_QNAME, SignatureType.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TEnvEvento }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TEnvEvento
+     * }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://www.portalfiscal.inf.br/nfe", name = "envEvento")
     public JAXBElement<TEnvEvento> createEnvEvento(TEnvEvento value) {
-        return new JAXBElement<TEnvEvento>(_EnvEvento_QNAME, TEnvEvento.class, null, value);
+	return new JAXBElement<TEnvEvento>(_EnvEvento_QNAME, TEnvEvento.class, null, value);
     }
 
 }

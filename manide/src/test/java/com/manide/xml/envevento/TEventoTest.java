@@ -88,10 +88,9 @@ class TEventoTest {
 	    System.out.println(evento1.getValue().getSignature());
 	    System.out.println(evento2.getValue().getSignature());
 
-	    TEnvEvento envEvento = factoryXml.createEvent();
+	    TEnvEvento envEvento = factoryXml.createEnvEvento();
 
-	    envEvento.getEvento().add(evento1.getValue());
-	    envEvento.getEvento().add(evento2.getValue());
+	    envEvento.setEvento(evento1.getValue());
 
 	    OutputStream os = new FileOutputStream(FILE_NAME_ENVIO_EVENTO);
 
@@ -107,7 +106,6 @@ class TEventoTest {
 	    assertThat(envEvento.getIdLote(), is(envEvento2.getIdLote()));
 	    assertThat(envEvento.getVersao(), is(envEvento2.getVersao()));
 
-	    assertThat(envEvento.getEvento().size(), is(2));
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	} catch (JAXBException e) {

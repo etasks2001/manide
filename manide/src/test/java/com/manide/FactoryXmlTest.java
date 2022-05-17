@@ -13,7 +13,7 @@ import com.manide.xml.envevento.TEvento;
 public class FactoryXmlTest {
     private static final String VERSAO = "1.00";
 
-    public TEnvEvento createEvent() {
+    public TEnvEvento createEnvEvento() {
 	TEnvEvento envEvento = new TEnvEvento();
 	envEvento.setVersao(VERSAO);
 	envEvento.setIdLote("1");

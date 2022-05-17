@@ -129,7 +129,8 @@ public class TEvento {
 
     @XmlElement(required = true)
     protected InfEvento infEvento;
-    @XmlElement(name = "Signature", namespace = "http://www.w3.org/2000/09/xmldsig#", required = true)
+
+    @XmlElement(name = "Signature", required = true)
     protected SignatureType signature;
     @XmlAttribute(name = "versao", required = true)
     protected String versao;
