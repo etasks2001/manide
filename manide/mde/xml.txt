@@ -25,3 +25,39 @@ criarXMLEnvioEvento
 TransmissorBusiness.a
 
 NotaFiscalFacade.
+
+
+[model.jar]
+NotaFiscalFacade
+SistemaFacade
+NotaFiscalBusiness.assinar
+TransmissorBusiness.enviarEvento
+
+TransmissorBusiness.a
+ private String a(EventoTO eventoTO, EstadoTO estadoTO, CertificadoTO certificadoTO, DestinatarioTO destinatarioTO) throws DSGECertificadoException, DSMDCommonException, DSMDBusinessException {
+    if (eventoTO.getnSeqEvento() == null)
+      eventoTO.setnSeqEvento(Integer.valueOf(DocumentoUtil.recuperarProximoNSeqEvento(eventoTO))); 
+    try {
+      String constant = "http://www.w3.org/2001/XMLSchema";
+      SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
+      Schema schema = xsdFactory.newSchema(getClass().getResource("/resources/DSMD_v1.02/envConfRecebto_v1.00.xsd"));
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      documentBuilderFactory.setSchema(schema);
+      documentBuilderFactory.setNamespaceAware(true);
+      documentBuilderFactory.setValidating(false);
+      Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(DocumentoUtil.criarXMLEnvioEvento(eventoTO, estadoTO.getCodigo()).getBytes()))));
+      Certificado certificado = new Certificado();
+      String xmlAssinado = certificado.assinarXML(certificadoTO.getX509Certificate(), certificadoTO.getPrivateKey(), DocumentoUtil.criarIdDocumentoEvento(eventoTO), document, destinatarioTO.getNrDocumento(), "evento");
+      Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xmlAssinado.getBytes()))));
+      boolean isAssinaturaValida = certificado.validarAssinaturaXML(documentAssinado);
+      if (!isAssinaturaValida)
+        throw new DSMDCommonException(new Exception(), "Assinatura Invtag evento!"); 
+      return xmlAssinado;
+    } catch (SAXException e) {
+      throw new DSMDBusinessException(e, e.getMessage());
+    } catch (IOException e) {
+      throw new DSMDBusinessException(e, e.getMessage());
+    } catch (ParserConfigurationException e) {
+      throw new DSMDBusinessException(e, e.getMessage());
+    } 
+  }
