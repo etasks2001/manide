@@ -69,7 +69,7 @@ class TEventoTest {
 	    osEvent2.close();
 
 	    /* ====================================================== */
-	    NFeXmlSignature certClient = new NFeXmlSignature("C:\\MDe\\fs.jks", "448006".toCharArray(), "infEvento");
+	    NFeXmlSignature certClient = new NFeXmlSignature("C:\\x\\maison\\ml.pfx", "641029".toCharArray(), "infEvento");
 
 	    certClient.signXML(FILE_NAME_EVENTO_1, FILE_NAME_EVENTO_1_SIGNED);
 	    certClient.signXML(FILE_NAME_EVENTO_2, FILE_NAME_EVENTO_2_SIGNED);
