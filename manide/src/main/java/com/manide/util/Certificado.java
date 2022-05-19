@@ -33,8 +33,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Certificado {
-    public String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String cnpjBase, String tagPaiAssinatura)
+    public String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String tagPaiAssinatura)
 	    throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, TransformerException {
+
 	XMLSignatureFactory signatureFactory = XMLSignatureFactory.getInstance("DOM");
 	List<Transform> listTransforms = new ArrayList<>();
 	listTransforms.add(signatureFactory.newTransform("http://www.w3.org/2000/09/xmldsig#enveloped-signature", (TransformParameterSpec) null));

@@ -16,10 +16,8 @@ import java.security.Key;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -110,12 +108,6 @@ public final class NFeXmlSignature {
 //	}
 
 	cert = (X509Certificate) rep.getCertificate(alias);
-
-	String[] parseHostNames = parseHostNames(cert);
-
-	for (String string : parseHostNames) {
-	    System.out.println(string);
-	}
 
 	return this.validate(cert);
 	// } catch (Exception e) {
@@ -222,91 +214,6 @@ public final class NFeXmlSignature {
 	// } catch (Exception e) {
 	// throw new Exception(e.getMessage(), e);
 	// }
-    }
-
-    private static final int otherName = 0;
-    private static final int rfc822Name = 1;
-    private static final int dNSName = 2;
-    private static final int x400Address = 3;
-    private static final int directoryName = 4;
-    private static final int ediPartyName = 5;
-    private static final int uniformResourceIdentifier = 6;
-    private static final int iPAddress = 7;
-    private static final int registeredID = 8;
-
-    public static String[] parseHostNames(X509Certificate cert) {
-	List<String> hostNameList = new ArrayList<>();
-	try {
-	    Collection<List<?>> altNames = cert.getSubjectAlternativeNames();
-	    if (altNames != null) {
-		for (List<?> altName : altNames) {
-		    if (altName.size() < 2)
-			continue;
-		    switch ((Integer) altName.get(0)) {
-		    case dNSName:
-			Object data = altName.get(1);
-			if (data instanceof String) {
-			    hostNameList.add(((String) data));
-			}
-			break;
-		    case iPAddress:
-			Object data2 = altName.get(1);
-			if (data2 instanceof String) {
-			    hostNameList.add(((String) data2));
-			}
-			break;
-		    case rfc822Name:
-			Object data3 = altName.get(1);
-			if (data3 instanceof String) {
-			    hostNameList.add(((String) data3));
-			}
-			break;
-		    case otherName:
-			Object data4 = altName.get(1);
-			if (data4 instanceof String) {
-			    hostNameList.add(((String) data4));
-			}
-			break;
-		    case x400Address:
-			Object data5 = altName.get(1);
-			if (data5 instanceof String) {
-			    hostNameList.add(((String) data5));
-			}
-			break;
-		    case directoryName:
-			Object data6 = altName.get(1);
-			if (data6 instanceof String) {
-			    hostNameList.add(((String) data6));
-			}
-			break;
-		    case uniformResourceIdentifier:
-			Object data7 = altName.get(1);
-			if (data7 instanceof String) {
-			    hostNameList.add(((String) data7));
-			}
-			break;
-		    case ediPartyName:
-			Object data8 = altName.get(1);
-			if (data8 instanceof String) {
-			    hostNameList.add(((String) data8));
-			}
-			break;
-		    case registeredID:
-			Object data9 = altName.get(1);
-			if (data9 instanceof String) {
-			    hostNameList.add(((String) data9));
-			}
-			break;
-		    default:
-		    }
-		}
-	    }
-	    System.out.println("Parsed hostNames: " + String.join(", ", hostNameList));
-	} catch (CertificateParsingException e) {
-	    System.err.println("Can't parse hostNames from this cert.");
-	    e.printStackTrace();
-	}
-	return hostNameList.toArray(new String[hostNameList.size()]);
     }
 
 }

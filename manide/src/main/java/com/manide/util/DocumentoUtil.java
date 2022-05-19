@@ -17,6 +17,7 @@ import br.inf.portalfiscal.nfe.TEnvEvento;
 import br.inf.portalfiscal.nfe.TEvento;
 
 public class DocumentoUtil {
+
     private static String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     public static EnvEventoDocument criarDocumentoEnvioEventos() {
@@ -44,7 +45,7 @@ public class DocumentoUtil {
 	timezone = timezone.substring(0, timezone.length() - 2) + ":" + timezone.substring(timezone.length() - 2, timezone.length());
 	infEvento.setDhEvento(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()) + timezone);
 
-	String idInfEvento = "";
+	String idInfEvento = "4156456456";
 	infEvento.setId(idInfEvento);
 	TEvento.InfEvento.DetEvento detEvento = TEvento.InfEvento.DetEvento.Factory.newInstance();
 	detEvento.setXJust("eventoTO.getxDetalheEvento()");
@@ -53,6 +54,7 @@ public class DocumentoUtil {
 	infEvento.setDetEvento(detEvento);
 	evento.setInfEvento(infEvento);
 	String xmlEnvEvento = getDocumentString(envEventoDocument, true);
+	System.out.println(xmlEnvEvento);
 	xmlEnvEvento = xmlEnvEvento.replaceFirst("<detEvento/>", "<detEvento versao= \"" + "1.00" + "\"/>");
 	return alterarTagConteudo(xmlEnvEvento, "detEvento", getFirstTagConteudo(getDocumentString(envEventoDocument, false), "detEvento", false, false));
     }
