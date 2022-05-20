@@ -6,8 +6,12 @@ class DocumentoUtilTest {
 
     @Test
     void test() {
-	String xml = DocumentoUtil.criarXMLEnvioEventoManifestacao();
-	System.out.println(xml);
+	try {
+	    String xml = new DocumentoUtil().xmlAssinado();
+	    System.out.println(xml);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
 
     }
 

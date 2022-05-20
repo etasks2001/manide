@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Este arquivo foi gerado pela Arquitetura JavaTM para Implementação de Referência (JAXB) de Bind XML, v2.2.8-b130911.1802 
+Consulte <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+Todas as modificações neste arquivo serão perdidas após a recompilação do esquema de origem. 
+Gerado em: 2022.05.17 às 11:29:15 AM GMT-03:00 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://www.w3.org/2000/09/xmldsig#">
+    <schemaBindings map="false">
+      <package name="com.manide.xml.envevento.xmldsigcore"/>
+    </schemaBindings>
+    <bindings scd="~tns:SignatureType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.SignatureType"/>
+    </bindings>
+    <bindings scd="~tns:X509DataType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.X509DataType"/>
+    </bindings>
+    <bindings scd="~tns:SignatureValueType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.SignatureValueType"/>
+    </bindings>
+    <bindings scd="~tns:TransformsType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.TransformsType"/>
+    </bindings>
+    <bindings scd="~tns:SignedInfoType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.SignedInfoType"/>
+    </bindings>
+    <bindings scd="~tns:TransformType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.TransformType"/>
+    </bindings>
+    <bindings scd="~tns:ReferenceType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.ReferenceType"/>
+    </bindings>
+    <bindings scd="~tns:KeyInfoType">
+      <class ref="com.manide.xml.envevento.xmldsigcore.KeyInfoType"/>
+    </bindings>
+  </bindings>
+</bindings>
+

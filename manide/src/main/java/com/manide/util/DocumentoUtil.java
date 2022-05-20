@@ -1,14 +1,33 @@
 package com.manide.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import javax.xml.crypto.dsig.dom.DOMValidateContext;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 import br.inf.portalfiscal.nfe.TAmb;
@@ -23,13 +42,13 @@ public class DocumentoUtil {
     public static EnvEventoDocument criarDocumentoEnvioEventos() {
 	EnvEventoDocument envEventoDocument = EnvEventoDocument.Factory.newInstance();
 	TEnvEvento envEvento = envEventoDocument.addNewEnvEvento();
-	envEvento.setVersao("2");
+	envEvento.setVersao("1.00");
 	envEvento.setIdLote(String.valueOf((new Date()).getTime()));
 	envEventoDocument.setEnvEvento(envEvento);
 	return envEventoDocument;
     }
 
-    public static String criarXMLEnvioEventoManifestacao() {
+    private static String criarXMLEnvioEventoManifestacao() {
 	EnvEventoDocument envEventoDocument = criarDocumentoEnvioEventos();
 	TEvento evento = envEventoDocument.getEnvEvento().addNewEvento();
 	evento.setVersao("1.00");
@@ -45,10 +64,10 @@ public class DocumentoUtil {
 	timezone = timezone.substring(0, timezone.length() - 2) + ":" + timezone.substring(timezone.length() - 2, timezone.length());
 	infEvento.setDhEvento(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()) + timezone);
 
-	String idInfEvento = "4156456456";
+	String idInfEvento = "ID0123456789012345678901234567890123456789012345678911";
 	infEvento.setId(idInfEvento);
 	TEvento.InfEvento.DetEvento detEvento = TEvento.InfEvento.DetEvento.Factory.newInstance();
-	detEvento.setXJust("eventoTO.getxDetalheEvento()");
+	detEvento.setXJust("justificativa de manifestacao do destinatario");
 	detEvento.setVersao(TEvento.InfEvento.DetEvento.Versao.X_1_00);
 	detEvento.setDescEvento(TEvento.InfEvento.DetEvento.DescEvento.CIENCIA_DA_OPERACAO);
 	infEvento.setDetEvento(detEvento);
@@ -66,6 +85,8 @@ public class DocumentoUtil {
 	matcher = Pattern.compile("(<\\s*" + tagName + "(?:\\s[^<]*)?>)(?:.*)(?:</" + tagName + "\\s*>)").matcher(xml);
 	if (matcher.find())
 	    return xml.substring(0, matcher.start()) + matcher.group(1) + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
+
+	System.out.println(xml);
 	return xml;
     }
 
@@ -143,6 +164,67 @@ public class DocumentoUtil {
 	if (str == null)
 	    return null;
 	return str.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&#39;", "'");
+    }
+
+    public String xmlAssinado() throws Exception {
+	String constant = "http://www.w3.org/2001/XMLSchema";
+	SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
+	Schema schema = xsdFactory.newSchema(getClass().getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
+	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	documentBuilderFactory.setSchema(schema);
+	documentBuilderFactory.setNamespaceAware(true);
+	documentBuilderFactory.setValidating(false);
+	Document document = documentBuilderFactory.newDocumentBuilder()
+		.parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(DocumentoUtil.criarXMLEnvioEventoManifestacao().getBytes()))));
+	Certificado certificado = new Certificado();
+
+	KeyStore rep = KeyStore.getInstance("PKCS12");
+	rep.load(new FileInputStream(new File("C:\\x\\franco\\fdasfdsa.pfx")), "448006".toCharArray());
+
+	String alias = null;
+	Enumeration<String> aliases = rep.aliases();
+
+	while (aliases.hasMoreElements()) {
+	    alias = aliases.nextElement();
+	    System.out.println("alias3: " + alias);
+	}
+	X509Certificate certificate = (X509Certificate) rep.getCertificate(alias);
+
+	PrivateKey privateKey = null;
+	Key chavePrivada = (Key) rep.getKey(alias, "448006".toCharArray());
+	if (chavePrivada instanceof PrivateKey) {
+	    privateKey = (PrivateKey) chavePrivada;
+	}
+
+	String xmlAssinado = certificado.assinarXML(certificate, privateKey, "ID0123456789012345678901234567890123456789012345678911", document, "evento");
+	Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xmlAssinado.getBytes()))));
+	boolean isAssinaturaValida = validarAssinaturaXML(documentAssinado);
+	if (!isAssinaturaValida)
+	    throw new Exception("Assinatura inválida evento!");
+	return xmlAssinado;
+    }
+
+    public boolean validarAssinaturaXML(Document document) throws Exception {
+	int indexSignature = 0;
+	boolean coreValidity = false;
+	try {
+	    NodeList nl = document.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+	    if (nl.getLength() == 0)
+		throw new Exception("O documento não está assinado.");
+	    XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+	    DOMValidateContext valContext = null;
+	    XMLSignature signature = null;
+	    do {
+		valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(indexSignature++));
+		signature = fac.unmarshalXMLSignature(valContext);
+		coreValidity = signature.validate(valContext);
+	    } while (coreValidity && indexSignature < nl.getLength());
+	} catch (Exception e) {
+
+	    throw new Exception("Ocorreu um problema durante a valida assinatura");
+	}
+
+	return coreValidity;
     }
 
 }
