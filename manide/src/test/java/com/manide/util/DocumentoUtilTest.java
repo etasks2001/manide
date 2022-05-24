@@ -1,12 +1,13 @@
 package com.manide.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -16,56 +17,89 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+@SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
+@TestMethodOrder(OrderAnnotation.class)
+@DisplayName("XML - Manifestação do Destinatário")
 class DocumentoUtilTest {
 
     @Test
-    void test() {
-	try {
-	    DocumentoUtil util = new DocumentoUtil();
-	    String xml = util.xmlAssinado();
-	    System.out.println(xml);
+    @DisplayName("gera xml, assina, verifica assinatura digital e grava arquivo")
+    @Order(1)
+    void test() throws Exception {
+	DocumentoUtil util = new DocumentoUtil();
+	String xml = util.xmlAssinado();
+	System.out.println(xml);
 
-	    Transformer transformer = getTransformer();
-	    OutputStream os = new FileOutputStream("c:/mde/teste-assinado.xml");
-	    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	    String constant = "http://www.w3.org/2001/XMLSchema";
-	    SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
-	    Schema schema = xsdFactory.newSchema(getClass().getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
-	    documentBuilderFactory.setSchema(schema);
-	    documentBuilderFactory.setNamespaceAware(true);
-	    documentBuilderFactory.setValidating(false);
+	Transformer transformer = getTransformer();
+	OutputStream os = new FileOutputStream("c:/mde/teste-assinado.xml");
+	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	String constant = "http://www.w3.org/2001/XMLSchema";
+	SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
+	Schema schema = xsdFactory.newSchema(getClass().getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
+	documentBuilderFactory.setSchema(schema);
+	documentBuilderFactory.setNamespaceAware(true);
+	documentBuilderFactory.setValidating(false);
 
-	    Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml.getBytes()))));
+	Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml.getBytes()))));
 
-	    transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
-	    os.close();
+	transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
+	os.close();
 
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+	documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml.getBytes()))));
+	boolean isAssinaturaValida = util.validarAssinaturaXML(documentAssinado);
+	isAssinaturaValida = util.validarAssinaturaXML2(documentAssinado);
+
+	MatcherAssert.assertThat(isAssinaturaValida, Matchers.is(Boolean.TRUE));
 
     }
 
     @Test
-    void test2() {
-	try {
-	    DocumentoUtil util = new DocumentoUtil();
-	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    @DisplayName("verifica assinatura digital de xml")
+    @Order(2)
+    void test2() throws Exception {
+	DocumentoUtil util = new DocumentoUtil();
+	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	String constant = "http://www.w3.org/2001/XMLSchema";
+	SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
+	Schema schema = xsdFactory.newSchema(getClass().getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
+	documentBuilderFactory.setSchema(schema);
+	documentBuilderFactory.setNamespaceAware(true);
+	documentBuilderFactory.setValidating(false);
 
-	    DocumentBuilder bd = dbf.newDocumentBuilder();
-
-	    Document document = bd.parse(new File("c:/mde/teste-assinado.xml"));
-
-	    boolean isValid = util.validarAssinaturaXML(document);
-
-	    System.out.println(isValid);
-	} catch (Exception e) {
-	    e.printStackTrace();
+	Path path = FileSystems.getDefault().getPath("c:/mde", "teste-assinado.xml");
+	byte[] xml = Files.readAllBytes(path);
+	for (byte b : xml) {
+	    System.out.print((char) b);
 	}
+
+	System.out.println(xml.length);
+	Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml))));
+
+	boolean isValid2 = util.validarAssinaturaXML2(document);
+	boolean isValid = util.validarAssinaturaXML(document);
+
+	MatcherAssert.assertThat(isValid2, Matchers.is(true));
+	MatcherAssert.assertThat(isValid, Matchers.is(true));
+
+//	Document document = bd.parse(new File("c:/mde/teste-assinado.xml"));
+
+//	Exception exception = Assertions.assertThrows(Exception.class, () -> util.validarAssinaturaXML(document));
+//
+//	MatcherAssert.assertThat(exception.getMessage(), Matchers.is("Ocorreu um problema durante a validação assinatura."));
 
     }
 

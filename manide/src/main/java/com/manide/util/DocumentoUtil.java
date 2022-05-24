@@ -12,10 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
@@ -221,10 +223,41 @@ public class DocumentoUtil {
 	    } while (coreValidity && indexSignature < nl.getLength());
 	} catch (Exception e) {
 
-	    throw new Exception("Ocorreu um problema durante a valida assinatura");
+	    throw new Exception("Ocorreu um problema durante a validação assinatura");
 	}
 
 	return coreValidity;
+    }
+
+    public boolean validarAssinaturaXML2(Document document) throws Exception {
+	NodeList nl = document.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+	if (nl.getLength() == 0)
+	    throw new Exception("O documento não está assinado.");
+	XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+	DOMValidateContext valContext = null;
+	XMLSignature signature = null;
+	boolean coreValidity = false;
+	valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
+	signature = fac.unmarshalXMLSignature(valContext);
+	coreValidity = signature.validate(valContext);
+	if (coreValidity == false) {
+	    System.err.println("Signature failed core validation");
+	    boolean sv = signature.getSignatureValue().validate(valContext);
+	    System.out.println("signature validation status: " + sv);
+	    if (sv == false) {
+		// Check the validation status of each Reference.
+		Iterator i = signature.getSignedInfo().getReferences().iterator();
+		for (int j = 0; i.hasNext(); j++) {
+		    boolean refValid = ((Reference) i.next()).validate(valContext);
+		    System.out.println("ref[" + j + "] validity status: " + refValid);
+		    return refValid;
+		}
+	    }
+	} else {
+	    return true;
+	}
+	return false;
+
     }
 
 }

@@ -32,14 +32,14 @@ public class KeyValueKeySelector extends KeySelector {
 		} catch (Exception e) {
 		    throw new KeySelectorException(e);
 		}
-		if (a(sm.getAlgorithm(), pk.getAlgorithm()))
+		if (algEquals(sm.getAlgorithm(), pk.getAlgorithm()))
 		    return new SimpleKeySelectorResult(pk);
 	    }
 	}
 	throw new KeySelectorException("No KeyValue element found!");
     }
 
-    boolean a(String algURI, String algName) {
+    boolean algEquals(String algURI, String algName) {
 	if (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#dsa-sha1"))
 	    return true;
 	if (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#rsa-sha1"))
