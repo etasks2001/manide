@@ -42,10 +42,8 @@ class DocumentoUtilTest {
     void test() throws Exception {
 	DocumentoUtil util = new DocumentoUtil();
 	String xml = util.xmlAssinado();
-	System.out.println(xml);
 
 	Transformer transformer = getTransformer();
-	OutputStream os = new FileOutputStream("c:/mde/teste-assinado.xml");
 	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 	String constant = "http://www.w3.org/2001/XMLSchema";
 	SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
@@ -56,6 +54,7 @@ class DocumentoUtilTest {
 
 	Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml.getBytes()))));
 
+	OutputStream os = new FileOutputStream("c:/mde/teste-assinado.xml");
 	transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
 	os.close();
 
@@ -68,7 +67,7 @@ class DocumentoUtilTest {
     }
 
     @Test
-    @DisplayName("verifica assinatura digital de xml")
+    @DisplayName("verifica assinatura digital do xml gravado")
     @Order(2)
     void test2() throws Exception {
 	DocumentoUtil util = new DocumentoUtil();
@@ -80,13 +79,9 @@ class DocumentoUtilTest {
 	documentBuilderFactory.setNamespaceAware(true);
 	documentBuilderFactory.setValidating(false);
 
-	Path path = FileSystems.getDefault().getPath("c:/mde", "teste-assinado.xml");
+	Path path = FileSystems.getDefault().getPath("c:/mde", "teste-assinado3.xml");
 	byte[] xml = Files.readAllBytes(path);
-	for (byte b : xml) {
-	    System.out.print((char) b);
-	}
 
-	System.out.println(xml.length);
 	Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml))));
 
 	boolean isValid2 = util.validarAssinaturaXML2(document);
@@ -96,9 +91,7 @@ class DocumentoUtilTest {
 	MatcherAssert.assertThat(isValid, Matchers.is(true));
 
 //	Document document = bd.parse(new File("c:/mde/teste-assinado.xml"));
-
 //	Exception exception = Assertions.assertThrows(Exception.class, () -> util.validarAssinaturaXML(document));
-//
 //	MatcherAssert.assertThat(exception.getMessage(), Matchers.is("Ocorreu um problema durante a validação assinatura."));
 
     }

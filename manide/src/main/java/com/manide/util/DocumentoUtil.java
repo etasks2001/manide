@@ -75,7 +75,6 @@ public class DocumentoUtil {
 	infEvento.setDetEvento(detEvento);
 	evento.setInfEvento(infEvento);
 	String xmlEnvEvento = getDocumentString(envEventoDocument, true);
-	System.out.println(xmlEnvEvento);
 	xmlEnvEvento = xmlEnvEvento.replaceFirst("<detEvento/>", "<detEvento versao= \"" + "1.00" + "\"/>");
 	return alterarTagConteudo(xmlEnvEvento, "detEvento", getFirstTagConteudo(getDocumentString(envEventoDocument, false), "detEvento", false, false));
     }
@@ -88,7 +87,6 @@ public class DocumentoUtil {
 	if (matcher.find())
 	    return xml.substring(0, matcher.start()) + matcher.group(1) + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
 
-	System.out.println(xml);
 	return xml;
     }
 
@@ -178,7 +176,6 @@ public class DocumentoUtil {
 	documentBuilderFactory.setValidating(false);
 	Document document = documentBuilderFactory.newDocumentBuilder()
 		.parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(DocumentoUtil.criarXMLEnvioEventoManifestacao().getBytes()))));
-	Certificado certificado = new Certificado();
 
 	KeyStore rep = KeyStore.getInstance("PKCS12");
 	rep.load(new FileInputStream(new File("C:\\x\\franco\\fdasfdsa.pfx")), "448006".toCharArray());
@@ -188,7 +185,6 @@ public class DocumentoUtil {
 
 	while (aliases.hasMoreElements()) {
 	    alias = aliases.nextElement();
-	    System.out.println("alias3: " + alias);
 	}
 	X509Certificate certificate = (X509Certificate) rep.getCertificate(alias);
 
@@ -198,6 +194,7 @@ public class DocumentoUtil {
 	    privateKey = (PrivateKey) chavePrivada;
 	}
 
+	Certificado certificado = new Certificado();
 	String xmlAssinado = certificado.assinarXML(certificate, privateKey, "ID0123456789012345678901234567890123456789012345678911", document, "evento");
 	Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xmlAssinado.getBytes()))));
 	boolean isAssinaturaValida = validarAssinaturaXML(documentAssinado);
@@ -237,7 +234,7 @@ public class DocumentoUtil {
 	DOMValidateContext valContext = null;
 	XMLSignature signature = null;
 	boolean coreValidity = false;
-	valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
+	valContext = new DOMValidateContext(new X509KeySelector(), nl.item(0));
 	signature = fac.unmarshalXMLSignature(valContext);
 	coreValidity = signature.validate(valContext);
 	if (coreValidity == false) {
@@ -246,8 +243,8 @@ public class DocumentoUtil {
 	    System.out.println("signature validation status: " + sv);
 	    if (sv == false) {
 		// Check the validation status of each Reference.
-		Iterator i = signature.getSignedInfo().getReferences().iterator();
-		for (int j = 0; i.hasNext(); j++) {
+		Iterator<?> i = signature.getSignedInfo().getReferences().iterator();
+		for (int j = 0; i.hasNext();) {
 		    boolean refValid = ((Reference) i.next()).validate(valContext);
 		    System.out.println("ref[" + j + "] validity status: " + refValid);
 		    return refValid;
