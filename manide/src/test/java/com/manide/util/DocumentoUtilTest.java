@@ -29,12 +29,10 @@ class DocumentoUtilTest {
     @DisplayName("gera xml, assina, verifica assinatura digital e grava arquivo")
     @Order(1)
     void test() throws Exception {
-	String xml = CriarEventoManifestacaoDestinatario.criarXMLEnvioEventoManifestacao();
-	String xmlAssinado = DocumentoUtil.assinarXml(xml);
+	String xml = EventoManifestacaoDestinatario.build();
+	String xmlAssinado = DocumentoUtil.assinar(xml);
 
 	Document documentAssinado = UtilXml.createDocument(xmlAssinado.getBytes());
-
-//	documentAssinado = UtilXml.createDocument(xmlAssinado.getBytes());
 
 	UtilXml.saveXml(documentAssinado, PATH_XML_ASSINADO);
 

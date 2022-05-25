@@ -7,8 +7,7 @@ import org.w3c.dom.Document;
 
 public abstract class DocumentoUtil {
 
-    public static String assinarXml(String xml) throws Exception {
-
+    public static String assinar(String xml) throws Exception {
 	Document document = UtilXml.createDocument(xml.getBytes());
 
 	KeyRepository keyRepository = KeyRepository.getInstance(new FileInputStream(new File("C:\\x\\franco\\fdasfdsa.pfx")), "448006".toCharArray());
