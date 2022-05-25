@@ -1,13 +1,21 @@
 package com.manide.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
@@ -16,19 +24,24 @@ import org.apache.xmlbeans.XmlOptions;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import com.manide.exception.ManideException;
+
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 
 public abstract class UtilXml {
-    private static String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    private static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
     private static final String SCHEMA_LANGUAGE = "http://www.w3.org/2001/XMLSchema";
 
     public static String alterarTagConteudo(String xml, String tagName, String newValue) {
 	Matcher matcher = Pattern.compile("(<\\s*" + tagName + "(?:\\s[^<]*)?)(?:/\\s*)>").matcher(xml);
-	if (matcher.find())
+	if (matcher.find()) {
 	    return xml.substring(0, matcher.start()) + matcher.group(1) + ">" + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
+	}
 	matcher = Pattern.compile("(<\\s*" + tagName + "(?:\\s[^<]*)?>)(?:.*)(?:</" + tagName + "\\s*>)").matcher(xml);
-	if (matcher.find())
+	if (matcher.find()) {
 	    return xml.substring(0, matcher.start()) + matcher.group(1) + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
+	}
 
 	return xml;
     }
@@ -43,14 +56,16 @@ public abstract class UtilXml {
 
     public static String getFirstTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
 	List<String> list = getTagConteudo(xml, nomeTag, incluirTag, decodeSpecialChars);
-	if (list != null && !list.isEmpty())
+	if (list != null && !list.isEmpty()) {
 	    return list.get(0);
+	}
 	return null;
     }
 
     private static List<String> getTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
-	if (xml == null || nomeTag == null)
+	if (xml == null || nomeTag == null) {
 	    return null;
+	}
 	List<String> tags = new ArrayList<>();
 	String regex = "(<\\s*[/]{0,1}\\s*#NOME_TAG#(\\s+[^<]*|\\s*)>|<\\s*#NOME_TAG#(\\s+[^<]*|\\s*)/{0,1}\\s*>)".replace("#NOME_TAG#", nomeTag);
 	Matcher matcher = Pattern.compile(regex).matcher(xml);
@@ -85,27 +100,31 @@ public abstract class UtilXml {
     }
 
     private static String code(String str, boolean decodeSpecialChars) {
-	if (str == null)
+	if (str == null) {
 	    return null;
+	}
 	Matcher cDataMatcher = Pattern.compile("<!\\[CDATA\\[(.*)\\]\\]").matcher(str);
 	if (cDataMatcher.find()) {
 	    String conteudoCDATA = cDataMatcher.group(1);
-	    if (!decodeSpecialChars)
+	    if (!decodeSpecialChars) {
 		return encodeSpecialXMLChars(conteudoCDATA);
+	    }
 	    return conteudoCDATA;
 	}
 	return decodeSpecialChars ? decodeSpecialXMLChars(str) : str;
     }
 
     public static String encodeSpecialXMLChars(String str) {
-	if (str == null)
+	if (str == null) {
 	    return null;
+	}
 	return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
     }
 
     public static String decodeSpecialXMLChars(String str) {
-	if (str == null)
+	if (str == null) {
 	    return null;
+	}
 	return str.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&#39;", "'");
     }
 
@@ -116,8 +135,24 @@ public abstract class UtilXml {
 	documentBuilderFactory.setSchema(schema);
 	documentBuilderFactory.setNamespaceAware(true);
 	documentBuilderFactory.setValidating(false);
-	Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml))));
+
+	ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xml);
+	InputStreamReader inputStreamReader = new InputStreamReader(byteArrayInputStream);
+	InputSource inputSource = new InputSource(inputStreamReader);
+	Document document = documentBuilderFactory.newDocumentBuilder().parse(inputSource);
+
 	return document;
     }
 
+    public static void saveXml(Document documentAssinado, String path) {
+	try {
+	    OutputStream os = new FileOutputStream(path);
+	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	    Transformer transformer = transformerFactory.newTransformer();
+	    transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
+	    os.close();
+	} catch (TransformerException | IOException e) {
+	    throw new ManideException(e);
+	}
+    }
 }

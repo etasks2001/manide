@@ -35,16 +35,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public abstract class Certificado {
+
     private static final String RSA_SHA1 = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+
     private static final String XMLDSIG_SHA1 = "http://www.w3.org/2000/09/xmldsig#sha1";
+
     private static final String C14N_20010315 = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+
     private static final String ENVELOPED_SIGNATURE = "http://www.w3.org/2000/09/xmldsig#enveloped-signature";
+
+    private static final TransformParameterSpec transformParameterSpec = null;
+
+    private static final C14NMethodParameterSpec c14NMethodParameterSpec = null;
 
     public static final String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String tagPaiAssinatura)
 	    throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, TransformerException {
-
-	TransformParameterSpec transformParameterSpec = null;
-	C14NMethodParameterSpec c14NMethodParameterSpec = null;
 
 	XMLSignatureFactory signatureFactory = XMLSignatureFactory.getInstance("DOM");
 
