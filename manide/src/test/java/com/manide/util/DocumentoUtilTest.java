@@ -1,21 +1,16 @@
 package com.manide.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -28,7 +23,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
@@ -36,31 +30,25 @@ import org.xml.sax.InputSource;
 @DisplayName("XML - Manifestação do Destinatário")
 class DocumentoUtilTest {
 
+    private static final String PATH_XML_ASSINADO = "c:/mde/teste-assinado.xml";
+
     @Test
     @DisplayName("gera xml, assina, verifica assinatura digital e grava arquivo")
     @Order(1)
     void test() throws Exception {
-	DocumentoUtil util = new DocumentoUtil();
-	String xml = util.xmlAssinado();
+	String xml = CriarEventoManifestacaoDestinatario.criarXMLEnvioEventoManifestacao();
+	String xmlAssinado = DocumentoUtil.assinarXml(xml);
 
+	Document documentAssinado = UtilXml.createDocument(xmlAssinado.getBytes());
+
+	OutputStream os = new FileOutputStream(PATH_XML_ASSINADO);
 	Transformer transformer = getTransformer();
-	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	String constant = "http://www.w3.org/2001/XMLSchema";
-	SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
-	Schema schema = xsdFactory.newSchema(getClass().getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
-	documentBuilderFactory.setSchema(schema);
-	documentBuilderFactory.setNamespaceAware(true);
-	documentBuilderFactory.setValidating(false);
-
-	Document documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml.getBytes()))));
-
-	OutputStream os = new FileOutputStream("c:/mde/teste-assinado.xml");
 	transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
 	os.close();
 
-	documentAssinado = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml.getBytes()))));
-	boolean isAssinaturaValida = util.validarAssinaturaXML(documentAssinado);
-	isAssinaturaValida = util.validarAssinaturaXML2(documentAssinado);
+	documentAssinado = UtilXml.createDocument(xmlAssinado.getBytes());
+	boolean isAssinaturaValida = ValidarXmlAssinado.isValid(documentAssinado);
+	isAssinaturaValida = ValidarXmlAssinado.isValid2(documentAssinado);
 
 	MatcherAssert.assertThat(isAssinaturaValida, Matchers.is(Boolean.TRUE));
 
@@ -70,22 +58,15 @@ class DocumentoUtilTest {
     @DisplayName("verifica assinatura digital do xml gravado")
     @Order(2)
     void test2() throws Exception {
-	DocumentoUtil util = new DocumentoUtil();
-	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	String constant = "http://www.w3.org/2001/XMLSchema";
-	SchemaFactory xsdFactory = SchemaFactory.newInstance(constant);
-	Schema schema = xsdFactory.newSchema(getClass().getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
-	documentBuilderFactory.setSchema(schema);
-	documentBuilderFactory.setNamespaceAware(true);
-	documentBuilderFactory.setValidating(false);
 
-	Path path = FileSystems.getDefault().getPath("c:/mde", "teste-assinado3.xml");
+	Path path = Paths.get(PATH_XML_ASSINADO);
+
 	byte[] xml = Files.readAllBytes(path);
 
-	Document document = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new InputStreamReader(new ByteArrayInputStream(xml))));
+	Document document = UtilXml.createDocument(xml);
 
-	boolean isValid2 = util.validarAssinaturaXML2(document);
-	boolean isValid = util.validarAssinaturaXML(document);
+	boolean isValid2 = ValidarXmlAssinado.isValid(document);
+	boolean isValid = ValidarXmlAssinado.isValid2(document);
 
 	MatcherAssert.assertThat(isValid2, Matchers.is(true));
 	MatcherAssert.assertThat(isValid, Matchers.is(true));
