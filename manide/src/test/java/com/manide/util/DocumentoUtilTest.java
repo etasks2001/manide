@@ -65,4 +65,5 @@ class DocumentoUtilTest {
 //	Exception exception = Assertions.assertThrows(Exception.class, () -> util.validarAssinaturaXML(document));
 //	MatcherAssert.assertThat(exception.getMessage(), Matchers.is("Ocorreu um problema durante a validação assinatura."));
     }
+
 }

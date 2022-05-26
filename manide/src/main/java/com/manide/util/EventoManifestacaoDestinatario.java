@@ -13,6 +13,7 @@ public abstract class EventoManifestacaoDestinatario {
     private static EnvEventoDocument criarDocumentoEnvioEventos() {
 	EnvEventoDocument envEventoDocument = EnvEventoDocument.Factory.newInstance();
 	TEnvEvento envEvento = envEventoDocument.addNewEnvEvento();
+
 	envEvento.setVersao("1.00");
 	envEvento.setIdLote(String.valueOf((new Date()).getTime()));
 	envEventoDocument.setEnvEvento(envEvento);
@@ -23,6 +24,7 @@ public abstract class EventoManifestacaoDestinatario {
 	EnvEventoDocument envEventoDocument = criarDocumentoEnvioEventos();
 	TEvento evento = envEventoDocument.getEnvEvento().addNewEvento();
 	evento.setVersao("1.00");
+
 	TEvento.InfEvento infEvento = evento.addNewInfEvento();
 	infEvento.setTpAmb(TAmb.X_1);
 	infEvento.setTpEvento(TEvento.InfEvento.TpEvento.X_210200);
@@ -32,8 +34,10 @@ public abstract class EventoManifestacaoDestinatario {
 	infEvento.setCNPJ("11222333000199");
 	infEvento.setCOrgao(TCOrgaoIBGE.X_91);
 	infEvento.setDhEvento(Util.getDh());
+
 	String idInfEvento = "ID0123456789012345678901234567890123456789012345678911";
 	infEvento.setId(idInfEvento);
+
 	TEvento.InfEvento.DetEvento detEvento = TEvento.InfEvento.DetEvento.Factory.newInstance();
 	detEvento.setXJust("justificativa de manifestacao do destinatario");
 	detEvento.setVersao(TEvento.InfEvento.DetEvento.Versao.X_1_00);

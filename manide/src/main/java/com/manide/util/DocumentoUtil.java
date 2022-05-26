@@ -11,6 +11,7 @@ public abstract class DocumentoUtil {
 	Document document = UtilXml.createDocument(xml.getBytes());
 
 	KeyRepository keyRepository = KeyRepository.getInstance(new FileInputStream(new File("C:\\x\\franco\\fdasfdsa.pfx")), "448006".toCharArray());
+	KeyRepository keyRepository2 = KeyRepository.getInstance(new FileInputStream(new File("C:\\x\\maison\\ml.pfx")), "641029".toCharArray());
 
 	String xmlAssinado = Certificado.assinarXML(keyRepository.getCertificate(), keyRepository.getPrivateKey(), "ID0123456789012345678901234567890123456789012345678911", document, "evento");
 
