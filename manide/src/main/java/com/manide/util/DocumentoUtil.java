@@ -13,7 +13,7 @@ public abstract class DocumentoUtil {
 	KeyRepository keyRepository = KeyRepository.getInstance(new FileInputStream(new File("C:\\x\\franco\\fdasfdsa.pfx")), "448006".toCharArray());
 	KeyRepository keyRepository2 = KeyRepository.getInstance(new FileInputStream(new File("C:\\x\\maison\\ml.pfx")), "641029".toCharArray());
 
-	String xmlAssinado = Certificado.assinarXML(keyRepository.getCertificate(), keyRepository.getPrivateKey(), "ID0123456789012345678901234567890123456789012345678911", document, "evento");
+	String xmlAssinado = Certificado.assinarXML(keyRepository.getCertificado(), keyRepository.getPrivateKey(), "ID0123456789012345678901234567890123456789012345678911", document, "evento");
 
 	Document documentAssinado = UtilXml.createDocument(xmlAssinado.getBytes());
 	boolean isAssinaturaValida = ValidarXmlAssinado.isValid(documentAssinado);
