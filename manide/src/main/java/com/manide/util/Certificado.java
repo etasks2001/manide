@@ -30,11 +30,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public abstract class Certificado {
+@Component
+public class Certificado {
 
     private static final String RSA_SHA1 = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
 
@@ -48,7 +50,7 @@ public abstract class Certificado {
 
     private static final C14NMethodParameterSpec c14NMethodParameterSpec = null;
 
-    public static final String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String tagPaiAssinatura)
+    public final String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String tagPaiAssinatura)
 	    throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, TransformerException {
 
 	XMLSignatureFactory signatureFactory = XMLSignatureFactory.getInstance("DOM");

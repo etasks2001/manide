@@ -9,11 +9,16 @@ public class DocumentoUtil {
 
     @Autowired
     private KeyRepository keyRepository;
+    @Autowired
+    private UtilXml utilXml;
+
+    @Autowired
+    Certificado certificado;
 
     public String assinar(String xml) throws Exception {
-	Document document = UtilXml.createDocument(xml.getBytes());
+	Document document = utilXml.createDocument(xml.getBytes());
 
-	String xmlAssinado = Certificado.assinarXML(keyRepository.getCertificado(), keyRepository.getPrivateKey(), "ID0123456789012345678901234567890123456789012345678911", document, "evento");
+	String xmlAssinado = certificado.assinarXML(keyRepository.getCertificado(), keyRepository.getPrivateKey(), "ID0123456789012345678901234567890123456789012345678911", document, "evento");
 
 	return xmlAssinado;
     }

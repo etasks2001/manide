@@ -2,13 +2,22 @@ package com.manide.util;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 import br.inf.portalfiscal.nfe.TAmb;
 import br.inf.portalfiscal.nfe.TCOrgaoIBGE;
 import br.inf.portalfiscal.nfe.TEnvEvento;
 import br.inf.portalfiscal.nfe.TEvento;
 
+@Component
 public class EventoManifestacaoDestinatario {
+
+    @Autowired
+    private Util util;
+    @Autowired
+    private UtilXml utilXml;
 
     private EnvEventoDocument criarDocumentoEnvioEventos() {
 	EnvEventoDocument envEventoDocument = EnvEventoDocument.Factory.newInstance();
@@ -33,7 +42,7 @@ public class EventoManifestacaoDestinatario {
 	infEvento.setChNFe("01234567890123456789012345678901234567891234");
 	infEvento.setCNPJ("11222333000199");
 	infEvento.setCOrgao(TCOrgaoIBGE.X_91);
-	infEvento.setDhEvento(Util.getDh());
+	infEvento.setDhEvento(util.getDh());
 
 	String idInfEvento = "ID0123456789012345678901234567890123456789012345678911";
 	infEvento.setId(idInfEvento);
@@ -45,10 +54,10 @@ public class EventoManifestacaoDestinatario {
 	infEvento.setDetEvento(detEvento);
 	evento.setInfEvento(infEvento);
 
-	String xmlEnvEvento = UtilXml.getDocumentString(envEventoDocument, true);
+	String xmlEnvEvento = utilXml.getDocumentString(envEventoDocument, true);
 
 	xmlEnvEvento = xmlEnvEvento.replaceFirst("<detEvento/>", "<detEvento versao= \"" + "1.00" + "\"/>");
-	return UtilXml.alterarTagConteudo(xmlEnvEvento, "detEvento", UtilXml.getFirstTagConteudo(UtilXml.getDocumentString(envEventoDocument, false), "detEvento", false, false));
+	return utilXml.alterarTagConteudo(xmlEnvEvento, "detEvento", utilXml.getFirstTagConteudo(utilXml.getDocumentString(envEventoDocument, false), "detEvento", false, false));
     }
 
 }

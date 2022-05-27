@@ -12,4 +12,5 @@ public class Config {
     public KeyRepository getKeyRepository() {
 	return new KeyRepository("C:\\x\\franco\\fdasfdsa.pfx", "448006".toCharArray());
     }
+
 }

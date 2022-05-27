@@ -21,6 +21,7 @@ import javax.xml.validation.SchemaFactory;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -28,12 +29,13 @@ import com.manide.exception.ManideException;
 
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 
-public abstract class UtilXml {
+@Component
+public class UtilXml {
     private static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     private static final String SCHEMA_LANGUAGE = "http://www.w3.org/2001/XMLSchema";
 
-    public static String alterarTagConteudo(String xml, String tagName, String newValue) {
+    public String alterarTagConteudo(String xml, String tagName, String newValue) {
 	Matcher matcher = Pattern.compile("(<\\s*" + tagName + "(?:\\s[^<]*)?)(?:/\\s*)>").matcher(xml);
 	if (matcher.find()) {
 	    return xml.substring(0, matcher.start()) + matcher.group(1) + ">" + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
@@ -46,7 +48,7 @@ public abstract class UtilXml {
 	return xml;
     }
 
-    public static String getDocumentString(Object document, boolean xmlDeclaration) {
+    public String getDocumentString(Object document, boolean xmlDeclaration) {
 	XmlOptions xmlOptions = new XmlOptions();
 	xmlOptions.setUseDefaultNamespace();
 	xmlOptions.setSaveAggressiveNamespaces();
@@ -54,7 +56,7 @@ public abstract class UtilXml {
 	return xmlDeclaration ? (XML + ((XmlObject) document).xmlText(xmlOptions)) : ((XmlObject) document).xmlText(xmlOptions);
     }
 
-    public static String getFirstTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
+    public String getFirstTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
 	List<String> list = getTagConteudo(xml, nomeTag, incluirTag, decodeSpecialChars);
 	if (list != null && !list.isEmpty()) {
 	    return list.get(0);
@@ -62,7 +64,7 @@ public abstract class UtilXml {
 	return null;
     }
 
-    private static List<String> getTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
+    private List<String> getTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
 	if (xml == null || nomeTag == null) {
 	    return null;
 	}
@@ -99,7 +101,7 @@ public abstract class UtilXml {
 	return tags.isEmpty() ? null : tags;
     }
 
-    private static String code(String str, boolean decodeSpecialChars) {
+    private String code(String str, boolean decodeSpecialChars) {
 	if (str == null) {
 	    return null;
 	}
@@ -114,21 +116,21 @@ public abstract class UtilXml {
 	return decodeSpecialChars ? decodeSpecialXMLChars(str) : str;
     }
 
-    public static String encodeSpecialXMLChars(String str) {
+    public String encodeSpecialXMLChars(String str) {
 	if (str == null) {
 	    return null;
 	}
 	return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
     }
 
-    public static String decodeSpecialXMLChars(String str) {
+    public String decodeSpecialXMLChars(String str) {
 	if (str == null) {
 	    return null;
 	}
 	return str.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&#39;", "'");
     }
 
-    public static Document createDocument(byte[] xml) throws Exception {
+    public Document createDocument(byte[] xml) throws Exception {
 	SchemaFactory xsdFactory = SchemaFactory.newInstance(SCHEMA_LANGUAGE);
 	Schema schema = xsdFactory.newSchema(UtilXml.class.getResource("/Evento_ManifestaDest_PL_v1.01/envConfRecebto_v1.00.xsd"));
 	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -144,7 +146,7 @@ public abstract class UtilXml {
 	return document;
     }
 
-    public static void saveXml(Document documentAssinado, String path) {
+    public void saveXml(Document documentAssinado, String path) {
 	try {
 	    OutputStream os = new FileOutputStream(path);
 	    TransformerFactory transformerFactory = TransformerFactory.newInstance();

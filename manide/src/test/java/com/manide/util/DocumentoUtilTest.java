@@ -20,17 +20,22 @@ class DocumentoUtilTest {
     private static final String PATH_XML_ASSINADO = "c:/mde/teste-assinado.xml";
 
     @Autowired
+    private EventoManifestacaoDestinatario eventoManifestacaoDestinatario;
+    @Autowired
     DocumentoUtil documentUtil;
+
+    @Autowired
+    UtilXml utilXml;
 
     @Test
     @DisplayName("gera xml, assina, verifica assinatura digital e grava arquivo")
     void test() throws Exception {
-	String xml = new EventoManifestacaoDestinatario().build();
+	String xml = eventoManifestacaoDestinatario.build();
 	String xmlAssinado = documentUtil.assinar(xml);
 
-	Document documentAssinado = UtilXml.createDocument(xmlAssinado.getBytes());
+	Document documentAssinado = utilXml.createDocument(xmlAssinado.getBytes());
 
-	UtilXml.saveXml(documentAssinado, PATH_XML_ASSINADO);
+	utilXml.saveXml(documentAssinado, PATH_XML_ASSINADO);
 
 	boolean isValida = new ValidarXmlAssinado().isValid(documentAssinado);
 
@@ -40,15 +45,15 @@ class DocumentoUtilTest {
     @Test
     @DisplayName("verifica se tem assinatura")
     void valida_se_tem_assinatura() throws Exception {
-	String xml = new EventoManifestacaoDestinatario().build();
+	String xml = eventoManifestacaoDestinatario.build();
 
-	Document documentCriado = UtilXml.createDocument(xml.getBytes());
-	UtilXml.saveXml(documentCriado, PATH_XML_ASSINADO);
+	Document documentCriado = utilXml.createDocument(xml.getBytes());
+	utilXml.saveXml(documentCriado, PATH_XML_ASSINADO);
 
 	Path path = Paths.get(PATH_XML_ASSINADO);
 
 	byte[] xmlBytes = Files.readAllBytes(path);
-	Document document = UtilXml.createDocument(xmlBytes);
+	Document document = utilXml.createDocument(xmlBytes);
 
 	Exception exception = Assertions.assertThrows(Exception.class, () -> new ValidarXmlAssinado().isValid(document));
 
@@ -58,18 +63,18 @@ class DocumentoUtilTest {
     @Test
     @DisplayName("verifica se assinatura está correta")
     void verifica_se_assinatura_esta_correta() throws Exception {
-	String xml = new EventoManifestacaoDestinatario().build();
+	String xml = eventoManifestacaoDestinatario.build();
 	String xmlAssinado = documentUtil.assinar(xml);
 
 	xmlAssinado = xmlAssinado.replace("justificativa de manifestacao do destinatario", "justificativa de manifestacao do destinatario alteradao");
-	Document documentCriado = UtilXml.createDocument(xmlAssinado.getBytes());
+	Document documentCriado = utilXml.createDocument(xmlAssinado.getBytes());
 
-	UtilXml.saveXml(documentCriado, PATH_XML_ASSINADO);
+	utilXml.saveXml(documentCriado, PATH_XML_ASSINADO);
 
 	Path path = Paths.get(PATH_XML_ASSINADO);
 
 	byte[] xmlBytes = Files.readAllBytes(path);
-	Document document = UtilXml.createDocument(xmlBytes);
+	Document document = utilXml.createDocument(xmlBytes);
 
 	MatcherAssert.assertThat(new ValidarXmlAssinado().isValid(document), Matchers.is(Boolean.FALSE));
     }
