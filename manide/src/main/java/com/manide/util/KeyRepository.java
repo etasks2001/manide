@@ -1,6 +1,5 @@
 package com.manide.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Key;
@@ -13,7 +12,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 
-import com.manide.certificado.CertificadoUtil;
 import com.manide.exception.ManideKeyException;
 
 public class KeyRepository {
@@ -23,8 +21,7 @@ public class KeyRepository {
 
     private X509Certificate certificado;
 
-    protected KeyRepository(InputStream stream, char[] password)
-	    throws NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, KeyStoreException, UnrecoverableKeyException {
+    protected KeyRepository(InputStream stream, char[] password) throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException, UnrecoverableKeyException {
 
 	keyStore = KeyStore.getInstance("PKCS12");
 	keyStore.load(stream, password);
@@ -36,8 +33,6 @@ public class KeyRepository {
 	    alias = aliases.nextElement();
 	}
 	certificado = (X509Certificate) keyStore.getCertificate(alias);
-
-	System.out.println(CertificadoUtil.getCnpj(certificado));
 
 	Key chavePrivada = (Key) keyStore.getKey(alias, password);
 	if (chavePrivada instanceof PrivateKey) {

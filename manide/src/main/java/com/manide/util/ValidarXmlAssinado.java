@@ -16,19 +16,22 @@ public abstract class ValidarXmlAssinado {
 	boolean coreValidity = false;
 	try {
 	    NodeList nl = document.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-	    if (nl.getLength() == 0)
+
+	    if (nl.getLength() == 0) {
 		throw new Exception("O documento não está assinado.");
+	    }
+
 	    XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 	    DOMValidateContext valContext = null;
 	    XMLSignature signature = null;
+
 	    do {
 		valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(indexSignature++));
 		signature = fac.unmarshalXMLSignature(valContext);
 		coreValidity = signature.validate(valContext);
 	    } while (coreValidity && indexSignature < nl.getLength());
 	} catch (Exception e) {
-
-	    throw new Exception("Ocorreu um problema durante a validação assinatura");
+	    throw new Exception("Ocorreu um problema durante a validação assinatura. " + e.getMessage());
 	}
 
 	return coreValidity;
@@ -36,8 +39,9 @@ public abstract class ValidarXmlAssinado {
 
     public static boolean isValid2(Document document) throws Exception {
 	NodeList nl = document.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-	if (nl.getLength() == 0)
+	if (nl.getLength() == 0) {
 	    throw new Exception("O documento não está assinado.");
+	}
 	XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 	DOMValidateContext valContext = null;
 	XMLSignature signature = null;
@@ -54,14 +58,14 @@ public abstract class ValidarXmlAssinado {
 		Iterator<?> i = signature.getSignedInfo().getReferences().iterator();
 		for (int j = 0; i.hasNext();) {
 		    boolean refValid = ((Reference) i.next()).validate(valContext);
-		    System.out.println("ref[" + j + "] validity status: " + refValid);
 		    return refValid;
+
 		}
 	    }
+	    throw new Exception("Assinatura está errada");
 	} else {
 	    return true;
 	}
-	return false;
 
     }
 
