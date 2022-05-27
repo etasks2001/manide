@@ -8,9 +8,9 @@ import br.inf.portalfiscal.nfe.TCOrgaoIBGE;
 import br.inf.portalfiscal.nfe.TEnvEvento;
 import br.inf.portalfiscal.nfe.TEvento;
 
-public abstract class EventoManifestacaoDestinatario {
+public class EventoManifestacaoDestinatario {
 
-    private static EnvEventoDocument criarDocumentoEnvioEventos() {
+    private EnvEventoDocument criarDocumentoEnvioEventos() {
 	EnvEventoDocument envEventoDocument = EnvEventoDocument.Factory.newInstance();
 	TEnvEvento envEvento = envEventoDocument.addNewEnvEvento();
 
@@ -20,7 +20,7 @@ public abstract class EventoManifestacaoDestinatario {
 	return envEventoDocument;
     }
 
-    public static String build() {
+    public String build() {
 	EnvEventoDocument envEventoDocument = criarDocumentoEnvioEventos();
 	TEvento evento = envEventoDocument.getEnvEvento().addNewEvento();
 	evento.setVersao("1.00");

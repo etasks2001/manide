@@ -6,6 +6,10 @@ public class ManideException extends RuntimeException {
 	super(e);
     }
 
+    public ManideException(String message) {
+	super(message);
+    }
+
     private static final long serialVersionUID = 1L;
 
 }
