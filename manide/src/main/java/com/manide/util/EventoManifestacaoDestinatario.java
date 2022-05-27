@@ -16,6 +16,7 @@ public class EventoManifestacaoDestinatario {
 
     @Autowired
     private Util util;
+
     @Autowired
     private UtilXml utilXml;
 

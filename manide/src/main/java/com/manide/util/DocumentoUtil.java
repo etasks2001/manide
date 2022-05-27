@@ -9,11 +9,12 @@ public class DocumentoUtil {
 
     @Autowired
     private KeyRepository keyRepository;
+
     @Autowired
     private UtilXml utilXml;
 
     @Autowired
-    Certificado certificado;
+    private Certificado certificado;
 
     public String assinar(String xml) throws Exception {
 	Document document = utilXml.createDocument(xml.getBytes());
