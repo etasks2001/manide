@@ -12,6 +12,7 @@ import br.inf.portalfiscal.nfe.TAmb;
 import br.inf.portalfiscal.nfe.TCOrgaoIBGE;
 import br.inf.portalfiscal.nfe.TEnvEvento;
 import br.inf.portalfiscal.nfe.TEvento;
+import br.inf.portalfiscal.nfe.TEvento.InfEvento.DetEvento.DescEvento.Enum;
 
 @Component
 public class EventoManifestacaoDestinatario {
@@ -53,7 +54,8 @@ public class EventoManifestacaoDestinatario {
 	TEvento.InfEvento.DetEvento detEvento = TEvento.InfEvento.DetEvento.Factory.newInstance();
 	detEvento.setXJust("justificativa de manifestacao do destinatario");
 	detEvento.setVersao(TEvento.InfEvento.DetEvento.Versao.X_1_00);
-	detEvento.setDescEvento(TEvento.InfEvento.DetEvento.DescEvento.CIENCIA_DA_OPERACAO);
+	Enum descEvento = TEvento.InfEvento.DetEvento.DescEvento.CIENCIA_DA_OPERACAO;
+	detEvento.setDescEvento(descEvento);
 	infEvento.setDetEvento(detEvento);
 	evento.setInfEvento(infEvento);
 

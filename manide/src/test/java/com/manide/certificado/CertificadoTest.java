@@ -14,21 +14,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.manide.exception.ManideException;
 
 @SpringBootTest
-@DisplayName("Certificado Util")
-class CertificadoUtilTest {
+@DisplayName("Certificado")
+class CertificadoTest {
+
     @Autowired
-    CertificadoUtil certificadoUtil;
+    Certificado certificado;
 
     @Autowired
     KeyRepository keyRepository;
 
     @Test
-    @DisplayName("Validar Período")
+    @DisplayName("Verificar se CNPJ é o mesmo do certificado")
     void test_localizadoCNPJ() throws CertificateEncodingException {
 
-	assertThat(certificadoUtil.cnpjEncontrado(keyRepository.getCertificado(), "61130373000171"), is(Boolean.TRUE));
+	assertThat(certificado.cnpjEncontrado(keyRepository.getCertificado(), "61130373000171"), is(Boolean.TRUE));
 
-	ManideException exception = assertThrows(ManideException.class, () -> certificadoUtil.cnpjEncontrado(keyRepository.getCertificado(), "61130373000172"));
+	ManideException exception = assertThrows(ManideException.class, () -> certificado.cnpjEncontrado(keyRepository.getCertificado(), "61130373000172"));
 	assertThat(exception.getMessage(), is("CNPJ não encontrado."));
 
     }

@@ -13,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
 
-import com.manide.xml.EventoManifestacaoDestinatario;
-
-
 @SpringBootTest
 @DisplayName("XML - Manifestação do Destinatário")
 class EventoManifestacaoDestinatarioFacadeTest {
@@ -23,7 +20,8 @@ class EventoManifestacaoDestinatarioFacadeTest {
     private static final String PATH_XML_ASSINADO = "c:/mde/teste-assinado.xml";
 
     @Autowired
-    private EventoManifestacaoDestinatario eventoManifestacaoDestinatario;
+    EventoManifestacaoDestinatario eventoManifestacaoDestinatario;
+
     @Autowired
     EventoManifestacaoDestinatarioFacade documentUtil;
 
@@ -40,7 +38,7 @@ class EventoManifestacaoDestinatarioFacadeTest {
 
 	utilXml.saveXml(documentAssinado, PATH_XML_ASSINADO);
 
-	boolean isValida = new ValidarXmlAssinado().isValid(documentAssinado);
+	boolean isValida = utilXml.isValid(documentAssinado);
 
 	MatcherAssert.assertThat(isValida, Matchers.is(Boolean.TRUE));
     }
@@ -58,7 +56,7 @@ class EventoManifestacaoDestinatarioFacadeTest {
 	byte[] xmlBytes = Files.readAllBytes(path);
 	Document document = utilXml.createDocument(xmlBytes);
 
-	Exception exception = Assertions.assertThrows(Exception.class, () -> new ValidarXmlAssinado().isValid(document));
+	Exception exception = Assertions.assertThrows(Exception.class, () -> utilXml.isValid(document));
 
 	MatcherAssert.assertThat(exception.getMessage(), Matchers.is("Ocorreu um problema durante a validação assinatura. O documento não está assinado."));
     }
@@ -79,6 +77,6 @@ class EventoManifestacaoDestinatarioFacadeTest {
 	byte[] xmlBytes = Files.readAllBytes(path);
 	Document document = utilXml.createDocument(xmlBytes);
 
-	MatcherAssert.assertThat(new ValidarXmlAssinado().isValid(document), Matchers.is(Boolean.FALSE));
+	MatcherAssert.assertThat(utilXml.isValid(document), Matchers.is(Boolean.FALSE));
     }
 }
