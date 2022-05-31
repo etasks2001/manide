@@ -1,4 +1,4 @@
-package com.manide.util;
+package com.manide.certificado;
 
 import java.security.PublicKey;
 import java.security.cert.X509Certificate;

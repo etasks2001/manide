@@ -1,4 +1,4 @@
-package com.manide.util;
+package com.manide.xml;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,16 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
 
+import com.manide.xml.EventoManifestacaoDestinatario;
+
+
 @SpringBootTest
 @DisplayName("XML - Manifestação do Destinatário")
-class DocumentoUtilTest {
+class EventoManifestacaoDestinatarioFacadeTest {
 
     private static final String PATH_XML_ASSINADO = "c:/mde/teste-assinado.xml";
 
     @Autowired
     private EventoManifestacaoDestinatario eventoManifestacaoDestinatario;
     @Autowired
-    DocumentoUtil documentUtil;
+    EventoManifestacaoDestinatarioFacade documentUtil;
 
     @Autowired
     UtilXml utilXml;

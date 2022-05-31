@@ -1,4 +1,4 @@
-package com.manide.util;
+package com.manide.certificado;
 
 import java.io.StringWriter;
 import java.security.InvalidAlgorithmParameterException;

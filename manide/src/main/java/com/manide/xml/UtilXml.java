@@ -1,4 +1,4 @@
-package com.manide.util;
+package com.manide.xml;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
@@ -20,8 +20,6 @@ import org.apache.xmlbeans.XmlOptions;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
-import com.manide.exception.ManideException;
 
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 
@@ -55,15 +53,11 @@ public class UtilXml {
 	return document;
     }
 
-    public void saveXml(Document documentAssinado, String path) {
-	try {
-	    OutputStream os = new FileOutputStream(path);
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	    Transformer transformer = transformerFactory.newTransformer();
-	    transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
-	    os.close();
-	} catch (TransformerException | IOException e) {
-	    throw new ManideException("Problema ao salvar o xml.");
-	}
+    public void saveXml(Document documentAssinado, String path) throws TransformerException, IOException {
+	OutputStream os = new FileOutputStream(path);
+	TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	Transformer transformer = transformerFactory.newTransformer();
+	transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
+	os.close();
     }
 }

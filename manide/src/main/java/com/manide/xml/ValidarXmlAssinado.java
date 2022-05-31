@@ -1,4 +1,4 @@
-package com.manide.util;
+package com.manide.xml;
 
 import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
@@ -6,6 +6,8 @@ import javax.xml.crypto.dsig.dom.DOMValidateContext;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
+import com.manide.certificado.KeyValueKeySelector;
 
 public class ValidarXmlAssinado {
     public boolean isValid(Document document) throws Exception {

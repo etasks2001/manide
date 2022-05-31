@@ -1,11 +1,15 @@
-package com.manide.util;
+package com.manide.xml;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
+import com.manide.certificado.Certificado;
+import com.manide.certificado.KeyRepository;
+import com.manide.xml.UtilXml;
+
 @Component
-public class DocumentoUtil {
+public class EventoManifestacaoDestinatarioFacade {
 
     @Autowired
     private KeyRepository keyRepository;
