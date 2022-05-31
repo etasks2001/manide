@@ -10,7 +10,7 @@ public class Config {
 
     @Bean
     public KeyRepository getKeyRepository() {
-	return new KeyRepository("C:\\x\\franco\\fdasfdsa.pfx", "448006".toCharArray());
+	return new KeyRepository("./mde/x.pfx", "448006".toCharArray());
     }
 
 }

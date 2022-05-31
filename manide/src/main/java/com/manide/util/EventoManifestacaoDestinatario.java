@@ -57,8 +57,9 @@ public class EventoManifestacaoDestinatario {
 
 	String xmlEnvEvento = utilXml.getDocumentString(envEventoDocument, true);
 
-	xmlEnvEvento = xmlEnvEvento.replaceFirst("<detEvento/>", "<detEvento versao= \"" + "1.00" + "\"/>");
-	return utilXml.alterarTagConteudo(xmlEnvEvento, "detEvento", utilXml.getFirstTagConteudo(utilXml.getDocumentString(envEventoDocument, false), "detEvento", false, false));
+//	xmlEnvEvento = xmlEnvEvento.replaceFirst("<detEvento/>", "<detEvento versao= \"" + "1.00" + "\"/>");
+	return xmlEnvEvento;
+//	return utilXml.alterarTagConteudo(xmlEnvEvento, "detEvento", utilXml.getFirstTagConteudo(utilXml.getDocumentString(envEventoDocument, false), "detEvento", false, false));
     }
 
 }

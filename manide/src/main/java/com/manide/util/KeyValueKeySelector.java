@@ -16,8 +16,6 @@ import javax.xml.crypto.dsig.keyinfo.X509Data;
 
 public class KeyValueKeySelector extends KeySelector {
     public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method, XMLCryptoContext context) throws KeySelectorException {
-	if (keyInfo == null)
-	    throw new KeySelectorException("Null KeyInfo object!");
 	SignatureMethod sm = (SignatureMethod) method;
 	List<XMLStructure> list = keyInfo.getContent();
 	for (int i = 0; i < list.size(); i++) {
@@ -40,10 +38,12 @@ public class KeyValueKeySelector extends KeySelector {
     }
 
     boolean algEquals(String algURI, String algName) {
-	if (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#dsa-sha1"))
+	if (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#dsa-sha1")) {
 	    return true;
-	if (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#rsa-sha1"))
+	}
+	if (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#rsa-sha1")) {
 	    return true;
+	}
 	return false;
     }
 }

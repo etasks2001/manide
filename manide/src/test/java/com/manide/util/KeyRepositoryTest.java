@@ -16,7 +16,8 @@ class KeyRepositoryTest {
     @Test
     @DisplayName("Arquivo não encontrado")
     void test_arquivo_nao_encontrado() {
-	ManideException exception = Assertions.assertThrows(ManideException.class, () -> new KeyRepository("C:/d", "".toCharArray()));
+
+	ManideException exception = Assertions.assertThrows(ManideException.class, () -> new KeyRepository("./mde", "".toCharArray()));
 
 	MatcherAssert.assertThat(exception.getMessage(), Matchers.is("Verifique o seu certificado. Pode ser caminho, senha ou nome."));
     }

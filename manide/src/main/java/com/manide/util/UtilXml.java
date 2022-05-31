@@ -5,10 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -35,99 +31,12 @@ public class UtilXml {
 
     private static final String SCHEMA_LANGUAGE = "http://www.w3.org/2001/XMLSchema";
 
-    public String alterarTagConteudo(String xml, String tagName, String newValue) {
-	Matcher matcher = Pattern.compile("(<\\s*" + tagName + "(?:\\s[^<]*)?)(?:/\\s*)>").matcher(xml);
-	if (matcher.find()) {
-	    return xml.substring(0, matcher.start()) + matcher.group(1) + ">" + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
-	}
-	matcher = Pattern.compile("(<\\s*" + tagName + "(?:\\s[^<]*)?>)(?:.*)(?:</" + tagName + "\\s*>)").matcher(xml);
-	if (matcher.find()) {
-	    return xml.substring(0, matcher.start()) + matcher.group(1) + newValue + "</" + tagName + ">" + xml.substring(matcher.end(), xml.length());
-	}
-
-	return xml;
-    }
-
     public String getDocumentString(Object document, boolean xmlDeclaration) {
 	XmlOptions xmlOptions = new XmlOptions();
 	xmlOptions.setUseDefaultNamespace();
 	xmlOptions.setSaveAggressiveNamespaces();
 	xmlOptions.setDocumentType(EnvEventoDocument.type);
 	return xmlDeclaration ? (XML + ((XmlObject) document).xmlText(xmlOptions)) : ((XmlObject) document).xmlText(xmlOptions);
-    }
-
-    public String getFirstTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
-	List<String> list = getTagConteudo(xml, nomeTag, incluirTag, decodeSpecialChars);
-	if (list != null && !list.isEmpty()) {
-	    return list.get(0);
-	}
-	return null;
-    }
-
-    private List<String> getTagConteudo(String xml, String nomeTag, boolean incluirTag, boolean decodeSpecialChars) {
-	if (xml == null || nomeTag == null) {
-	    return null;
-	}
-	List<String> tags = new ArrayList<>();
-	String regex = "(<\\s*[/]{0,1}\\s*#NOME_TAG#(\\s+[^<]*|\\s*)>|<\\s*#NOME_TAG#(\\s+[^<]*|\\s*)/{0,1}\\s*>)".replace("#NOME_TAG#", nomeTag);
-	Matcher matcher = Pattern.compile(regex).matcher(xml);
-	int start = 0;
-	int end = 0;
-	int diff = incluirTag ? 1 : 0;
-	String group = null;
-	while (matcher.find(start)) {
-	    if (incluirTag) {
-		start = matcher.start();
-	    } else {
-		start = matcher.end();
-	    }
-	    group = matcher.group();
-	    if (Pattern.matches("<[^><]*/\\s*>", group)) {
-		if (incluirTag) {
-		    tags.add(code(group, decodeSpecialChars));
-		    start += diff;
-		}
-		continue;
-	    }
-	    matcher.find(start + diff);
-	    if (incluirTag) {
-		end = matcher.end();
-	    } else {
-		end = matcher.start();
-	    }
-	    tags.add(code(xml.substring(start, end), decodeSpecialChars));
-	    start = matcher.end();
-	}
-	return tags.isEmpty() ? null : tags;
-    }
-
-    private String code(String str, boolean decodeSpecialChars) {
-	if (str == null) {
-	    return null;
-	}
-	Matcher cDataMatcher = Pattern.compile("<!\\[CDATA\\[(.*)\\]\\]").matcher(str);
-	if (cDataMatcher.find()) {
-	    String conteudoCDATA = cDataMatcher.group(1);
-	    if (!decodeSpecialChars) {
-		return encodeSpecialXMLChars(conteudoCDATA);
-	    }
-	    return conteudoCDATA;
-	}
-	return decodeSpecialChars ? decodeSpecialXMLChars(str) : str;
-    }
-
-    public String encodeSpecialXMLChars(String str) {
-	if (str == null) {
-	    return null;
-	}
-	return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
-    }
-
-    public String decodeSpecialXMLChars(String str) {
-	if (str == null) {
-	    return null;
-	}
-	return str.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&#39;", "'");
     }
 
     public Document createDocument(byte[] xml) throws Exception {
@@ -154,7 +63,7 @@ public class UtilXml {
 	    transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
 	    os.close();
 	} catch (TransformerException | IOException e) {
-	    throw new ManideException(e);
+	    throw new ManideException("Problema ao salvar o xml.");
 	}
     }
 }
