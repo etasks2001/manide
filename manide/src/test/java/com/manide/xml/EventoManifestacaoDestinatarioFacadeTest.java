@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
 
+import com.manide.certificado.Certificado;
+
 @SpringBootTest
 @DisplayName("XML - Manifestação do Destinatário")
 class EventoManifestacaoDestinatarioFacadeTest {
@@ -28,6 +30,9 @@ class EventoManifestacaoDestinatarioFacadeTest {
     @Autowired
     UtilXml utilXml;
 
+    @Autowired
+    Certificado certificado;
+
     @Test
     @DisplayName("gera xml, assina, verifica assinatura digital e grava arquivo")
     void test() throws Exception {
@@ -38,7 +43,7 @@ class EventoManifestacaoDestinatarioFacadeTest {
 
 	utilXml.saveXml(documentAssinado, PATH_XML_ASSINADO);
 
-	boolean isValida = utilXml.isValid(documentAssinado);
+	boolean isValida = certificado.isValid(documentAssinado);
 
 	MatcherAssert.assertThat(isValida, Matchers.is(Boolean.TRUE));
     }
@@ -49,6 +54,7 @@ class EventoManifestacaoDestinatarioFacadeTest {
 	String xml = eventoManifestacaoDestinatario.build();
 
 	Document documentCriado = utilXml.createDocument(xml.getBytes());
+
 	utilXml.saveXml(documentCriado, PATH_XML_ASSINADO);
 
 	Path path = Paths.get(PATH_XML_ASSINADO);
@@ -56,7 +62,7 @@ class EventoManifestacaoDestinatarioFacadeTest {
 	byte[] xmlBytes = Files.readAllBytes(path);
 	Document document = utilXml.createDocument(xmlBytes);
 
-	Exception exception = Assertions.assertThrows(Exception.class, () -> utilXml.isValid(document));
+	Exception exception = Assertions.assertThrows(Exception.class, () -> certificado.isValid(document));
 
 	MatcherAssert.assertThat(exception.getMessage(), Matchers.is("Ocorreu um problema durante a validação assinatura. O documento não está assinado."));
     }
@@ -77,6 +83,6 @@ class EventoManifestacaoDestinatarioFacadeTest {
 	byte[] xmlBytes = Files.readAllBytes(path);
 	Document document = utilXml.createDocument(xmlBytes);
 
-	MatcherAssert.assertThat(utilXml.isValid(document), Matchers.is(Boolean.FALSE));
+	MatcherAssert.assertThat(certificado.isValid(document), Matchers.is(Boolean.FALSE));
     }
 }

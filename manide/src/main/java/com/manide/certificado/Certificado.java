@@ -20,11 +20,13 @@ import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMSignContext;
+import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -60,6 +62,7 @@ public class Certificado {
 
     public final String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String tagPaiAssinatura)
 	    throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, TransformerException {
+	this.check();
 
 	XMLSignatureFactory signatureFactory = XMLSignatureFactory.getInstance("DOM");
 
@@ -92,16 +95,19 @@ public class Certificado {
 	xmlSignature.sign(dOMSignContext);
 
 	TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
 	Transformer transformer = transformerFactory.newTransformer();
+	transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "");
 
 	StringWriter stringWriter = new StringWriter();
 	StreamResult streamResult = new StreamResult(stringWriter);
 	transformer.transform(new DOMSource(document), streamResult);
-	String retorno = stringWriter.toString();
-	return retorno;
+	String assinado = stringWriter.toString();
+	return assinado;
     }
 
     public boolean cnpjEncontrado(X509Certificate certificate, String cnpj) throws CertificateEncodingException {
+	this.check();
 	X500Name x500name = new JcaX509CertificateHolder(certificate).getSubject();
 	RDN cn = x500name.getRDNs(BCStyle.CN)[0];
 	String nome = IETFUtils.valueToString(cn.getFirst().getValue());
@@ -114,4 +120,34 @@ public class Certificado {
 
     }
 
+    public boolean isValid(Document document) throws Exception {
+	this.check();
+	int indexSignature = 0;
+	boolean coreValidity = false;
+	try {
+	    NodeList nl = document.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+
+	    if (nl.getLength() == 0) {
+		throw new Exception("O documento não está assinado.");
+	    }
+
+	    XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+	    DOMValidateContext valContext = null;
+	    XMLSignature signature = null;
+
+	    do {
+		valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(indexSignature++));
+		signature = fac.unmarshalXMLSignature(valContext);
+		coreValidity = signature.validate(valContext);
+	    } while (coreValidity && indexSignature < nl.getLength());
+	} catch (Exception e) {
+	    throw new Exception("Ocorreu um problema durante a validação assinatura. " + e.getMessage());
+	}
+
+	return coreValidity;
+    }
+
+    void check() {
+	System.out.println(this.getClass().getName() + ": " + this.hashCode());
+    }
 }

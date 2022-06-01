@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import javax.xml.crypto.dsig.XMLSignature;
-import javax.xml.crypto.dsig.XMLSignatureFactory;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -22,10 +19,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import com.manide.certificado.KeyValueKeySelector;
 
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 
@@ -40,7 +34,7 @@ public class UtilXml {
 	xmlOptions.setUseDefaultNamespace();
 	xmlOptions.setSaveAggressiveNamespaces();
 	xmlOptions.setDocumentType(EnvEventoDocument.type);
-	return (xmlDeclaration ? (XML) : "") + document.xmlText(xmlOptions);
+	return (xmlDeclaration ? XML : "") + document.xmlText(xmlOptions);
     }
 
     public Document createDocument(byte[] xml) throws Exception {
@@ -54,7 +48,9 @@ public class UtilXml {
 	ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xml);
 	InputStreamReader inputStreamReader = new InputStreamReader(byteArrayInputStream);
 	InputSource inputSource = new InputSource(inputStreamReader);
-	return documentBuilderFactory.newDocumentBuilder().parse(inputSource);
+	Document document = documentBuilderFactory.newDocumentBuilder().parse(inputSource);
+	document.setXmlStandalone(true);
+	return document;
     }
 
     public void saveXml(Document documentAssinado, String path) throws TransformerException, IOException {
@@ -63,32 +59,6 @@ public class UtilXml {
 	Transformer transformer = transformerFactory.newTransformer();
 	transformer.transform(new DOMSource(documentAssinado), new StreamResult(os));
 	os.close();
-    }
-
-    public boolean isValid(Document document) throws Exception {
-	int indexSignature = 0;
-	boolean coreValidity = false;
-	try {
-	    NodeList nl = document.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-
-	    if (nl.getLength() == 0) {
-		throw new Exception("O documento não está assinado.");
-	    }
-
-	    XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
-	    DOMValidateContext valContext = null;
-	    XMLSignature signature = null;
-
-	    do {
-		valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(indexSignature++));
-		signature = fac.unmarshalXMLSignature(valContext);
-		coreValidity = signature.validate(valContext);
-	    } while (coreValidity && indexSignature < nl.getLength());
-	} catch (Exception e) {
-	    throw new Exception("Ocorreu um problema durante a validação assinatura. " + e.getMessage());
-	}
-
-	return coreValidity;
     }
 
 }
