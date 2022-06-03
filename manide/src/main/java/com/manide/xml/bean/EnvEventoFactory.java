@@ -13,7 +13,10 @@ import br.inf.portalfiscal.nfe.TAmb;
 import br.inf.portalfiscal.nfe.TCOrgaoIBGE;
 import br.inf.portalfiscal.nfe.TEnvEvento;
 import br.inf.portalfiscal.nfe.TEvento;
+import br.inf.portalfiscal.nfe.TEvento.InfEvento.DetEvento;
 import br.inf.portalfiscal.nfe.TEvento.InfEvento.DetEvento.DescEvento.Enum;
+import br.inf.portalfiscal.nfe.TEvento.InfEvento.DetEvento.Versao;
+import br.inf.portalfiscal.nfe.TEvento.InfEvento.TpEvento;
 
 @Component
 public class EnvEventoFactory {
@@ -38,31 +41,39 @@ public class EnvEventoFactory {
     }
 
     public String build() {
+	String versaoEvento = "1.00";
+	TAmb.Enum tpAmb = TAmb.X_1;
+	TpEvento.Enum tpEvento = TpEvento.X_210200;
+	String verEvento = "1.00";
+	String chNFe = "01234567890123456789012345678901234567891234";
+	String cnpj = "11222333000199";
+	String idInfEvento = "ID0123456789012345678901234567890123456789012345678911";
+	String xJust = "justificativa de manifestacao do destinatario";
+	Versao.Enum detEventoVersao = Versao.X_1_00;
+	Enum descEvento = TEvento.InfEvento.DetEvento.DescEvento.CIENCIA_DA_OPERACAO;
+
 	EnvEventoDocument envEventoDocument = criarDocumentoEnvioEventos();
 
 	TEvento evento = envEventoDocument.getEnvEvento().addNewEvento();
-	evento.setVersao("1.00");
+	evento.setVersao(versaoEvento);
 
 	TEvento.InfEvento infEvento = evento.addNewInfEvento();
-
-	infEvento.setTpAmb(TAmb.X_1);
-
-	infEvento.setTpEvento(TEvento.InfEvento.TpEvento.X_210200);
+	infEvento.setTpAmb(tpAmb);
+	infEvento.setTpEvento(tpEvento);
 	infEvento.setNSeqEvento(String.valueOf(1));
-	infEvento.setVerEvento("1.00");
-	infEvento.setChNFe("01234567890123456789012345678901234567891234");
-	infEvento.setCNPJ("11222333000199");
+	infEvento.setVerEvento(verEvento);
+	infEvento.setChNFe(chNFe);
+	infEvento.setCNPJ(cnpj);
 	infEvento.setCOrgao(TCOrgaoIBGE.X_91);
 	infEvento.setDhEvento(util.getDh());
-	String idInfEvento = "ID0123456789012345678901234567890123456789012345678911";
 	infEvento.setId(idInfEvento);
 
-	TEvento.InfEvento.DetEvento detEvento = TEvento.InfEvento.DetEvento.Factory.newInstance();
-	detEvento.setXJust("justificativa de manifestacao do destinatario");
-	detEvento.setVersao(TEvento.InfEvento.DetEvento.Versao.X_1_00);
-	Enum descEvento = TEvento.InfEvento.DetEvento.DescEvento.CIENCIA_DA_OPERACAO;
+	DetEvento detEvento = DetEvento.Factory.newInstance();
+	detEvento.setXJust(xJust);
+	detEvento.setVersao(detEventoVersao);
 	detEvento.setDescEvento(descEvento);
 	infEvento.setDetEvento(detEvento);
+
 	evento.setInfEvento(infEvento);
 
 	String xmlEnvEvento = utilXml.getDocumentString(envEventoDocument, true);
