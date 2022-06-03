@@ -62,7 +62,6 @@ public class Certificado {
 
     public final String assinarXML(X509Certificate certificado, PrivateKey privateKey, String referenceURI, Document document, String tagPaiAssinatura)
 	    throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, MarshalException, XMLSignatureException, TransformerException {
-	this.check();
 
 	XMLSignatureFactory signatureFactory = XMLSignatureFactory.getInstance("DOM");
 
@@ -107,7 +106,6 @@ public class Certificado {
     }
 
     public boolean cnpjEncontrado(X509Certificate certificate, String cnpj) throws CertificateEncodingException {
-	this.check();
 	X500Name x500name = new JcaX509CertificateHolder(certificate).getSubject();
 	RDN cn = x500name.getRDNs(BCStyle.CN)[0];
 	String nome = IETFUtils.valueToString(cn.getFirst().getValue());
@@ -121,7 +119,6 @@ public class Certificado {
     }
 
     public boolean isValid(Document document) throws Exception {
-	this.check();
 	int indexSignature = 0;
 	boolean coreValidity = false;
 	try {
@@ -147,7 +144,4 @@ public class Certificado {
 	return coreValidity;
     }
 
-    void check() {
-	System.out.println(this.getClass().getName() + ": " + this.hashCode());
-    }
 }

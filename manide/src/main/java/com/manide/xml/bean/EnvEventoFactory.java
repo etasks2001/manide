@@ -1,4 +1,4 @@
-package com.manide.xml;
+package com.manide.xml.bean;
 
 import java.util.Date;
 
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.manide.util.Util;
+import com.manide.xml.UtilXml;
 
 import br.inf.portalfiscal.nfe.EnvEventoDocument;
 import br.inf.portalfiscal.nfe.TAmb;
@@ -15,7 +16,7 @@ import br.inf.portalfiscal.nfe.TEvento;
 import br.inf.portalfiscal.nfe.TEvento.InfEvento.DetEvento.DescEvento.Enum;
 
 @Component
-public class EventoManifestacaoDestinatario {
+public class EnvEventoFactory {
 
     @Autowired
     private Util util;
@@ -45,6 +46,7 @@ public class EventoManifestacaoDestinatario {
 	TEvento.InfEvento infEvento = evento.addNewInfEvento();
 
 	infEvento.setTpAmb(TAmb.X_1);
+
 	infEvento.setTpEvento(TEvento.InfEvento.TpEvento.X_210200);
 	infEvento.setNSeqEvento(String.valueOf(1));
 	infEvento.setVerEvento("1.00");
